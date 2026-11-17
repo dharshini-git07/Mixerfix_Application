@@ -72,30 +72,29 @@ const OwnerDashboard = () => {
     <div className="space-y-6">
       {/* Top Banner */}
       <div 
-        className="rounded-2xl p-6 md:p-8 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4 relative overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #142D3A 0%, #173847 50%, #087F75 100%)' }}
+        className="rounded-2xl p-6 md:p-8 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4 relative overflow-hidden bg-gradient-to-r from-[#142D3A] via-[#1A3848] to-[#087F75]"
       >
         <div className="relative z-10 max-w-2xl">
-          <span className="inline-block px-3 py-1 bg-white/15 backdrop-blur-md rounded-full text-xs font-semibold text-teal-200 border border-white/10 mb-2">
-            Master Workshop Command Center
+          <span className="inline-block px-3.5 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold text-teal-200 border border-white/20 mb-2 uppercase tracking-wider">
+            Workshop Hub
           </span>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-            Mixer Fix Electronic Repairs Hub
+          <h1 className="text-3xl font-black text-white tracking-tight">
+            Electronics Repair Workshop
           </h1>
-          <p className="text-slate-200 mt-1 text-xs md:text-sm">
-            Logged in as {currentUser?.name || 'Shop Manager'} • Monitoring live repair workflow & courier dispatch
+          <p className="text-teal-100 mt-1 text-sm md:text-base font-medium">
+            Live repair tickets, quotation controls & courier dispatch.
           </p>
         </div>
-        <div className="relative z-10 flex gap-2">
+        <div className="relative z-10 flex gap-2.5">
           <Link
             to="/owner/requests"
-            className="px-4 py-2.5 bg-[#087F75] hover:bg-[#06635B] text-white text-xs font-bold rounded-xl transition shadow-md shadow-[#087F75]/30 whitespace-nowrap cursor-pointer"
+            className="px-5 py-2.5 bg-[#087F75] hover:bg-[#06635B] text-white text-sm font-bold rounded-xl transition shadow-md shadow-[#087F75]/30 whitespace-nowrap cursor-pointer"
           >
-            Review Inbound ({newRequests})
+            Inbound ({newRequests})
           </Link>
           <Link
             to="/owner/deliveries"
-            className="px-4 py-2.5 bg-white/15 hover:bg-white/25 text-white text-xs font-semibold rounded-xl backdrop-blur-sm transition border border-white/20 whitespace-nowrap cursor-pointer"
+            className="px-5 py-2.5 bg-white/20 hover:bg-white/30 text-white text-sm font-bold rounded-xl backdrop-blur-sm transition border border-white/30 whitespace-nowrap cursor-pointer"
           >
             Courier Fleet
           </Link>
@@ -109,102 +108,102 @@ const OwnerDashboard = () => {
           value={totalRequests}
           icon={Wrench}
           color="primary"
-          subtitle="All repair tickets"
+          subtitle="All Tickets"
         />
         <StatCard
           title="New Requests"
           value={newRequests}
           icon={Clock}
           color="warning"
-          subtitle="Awaiting shop approval"
+          subtitle="Needs Approval"
         />
         <StatCard
           title="In Workbench"
           value={inProgressRepairs}
           icon={AlertTriangle}
           color="info"
-          subtitle="Active pipeline"
+          subtitle="Under Repair"
         />
         <StatCard
           title="Completed"
           value={completedRepairs}
           icon={CheckCircle2}
           color="success"
-          subtitle="Fixed or dispatched"
+          subtitle="Ready / Delivered"
         />
         <StatCard
           title="Total Revenue"
           value={`₹${totalRevenue}`}
           icon={IndianRupee}
           color="primary"
-          subtitle="Simulated collections"
+          subtitle="Collections"
         />
       </div>
 
       {/* Main Table: Inbound & Active Repairs */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="p-5 border-b border-gray-100 flex items-center justify-between">
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="p-5 border-b border-slate-100 flex items-center justify-between">
           <div>
-            <h2 className="font-bold text-primary-text text-base">Inbound & Active Repairs</h2>
-            <p className="text-xs text-secondary-text">Approve requests, assign quotes, or dispatch couriers</p>
+            <h2 className="font-extrabold text-slate-900 text-lg">Inbound & Active Repairs</h2>
+            <p className="text-sm font-medium text-slate-500">Approve requests, set quotes, or assign couriers.</p>
           </div>
           <Link
             to="/owner/requests"
-            className="text-xs font-semibold text-brand-primary hover:underline flex items-center gap-1"
+            className="text-sm font-bold text-[#087F75] hover:underline flex items-center gap-1"
           >
-            View all ({repairs.length}) <ArrowRight className="w-3.5 h-3.5" />
+            View all ({repairs.length}) <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-primary-text">
-            <thead className="bg-bg-light/60 text-xs uppercase text-secondary-text border-b border-gray-100">
+          <table className="w-full text-left text-sm text-slate-800">
+            <thead className="bg-slate-50 text-sm font-bold uppercase text-slate-700 border-b border-slate-200">
               <tr>
-                <th className="px-6 py-3 font-semibold">Repair ID</th>
-                <th className="px-6 py-3 font-semibold">Customer</th>
-                <th className="px-6 py-3 font-semibold">Appliance</th>
-                <th className="px-6 py-3 font-semibold">Issue</th>
-                <th className="px-6 py-3 font-semibold">Est. Cost</th>
-                <th className="px-6 py-3 font-semibold">Status</th>
-                <th className="px-6 py-3 font-semibold text-right">Shop Actions</th>
+                <th className="px-6 py-3.5">Repair ID</th>
+                <th className="px-6 py-3.5">Customer</th>
+                <th className="px-6 py-3.5">Appliance</th>
+                <th className="px-6 py-3.5">Issue</th>
+                <th className="px-6 py-3.5">Est. Cost</th>
+                <th className="px-6 py-3.5">Status</th>
+                <th className="px-6 py-3.5 text-right">Shop Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-slate-100">
               {repairs.slice(0, 6).map((repair) => (
-                <tr key={repair.id} className="hover:bg-gray-50/60 transition">
-                  <td className="px-6 py-4 font-bold text-brand-primary text-xs">
+                <tr key={repair.id} className="hover:bg-slate-50 transition">
+                  <td className="px-6 py-4 font-bold text-[#087F75] text-sm whitespace-nowrap">
                     {repair.id}
                   </td>
                   <td className="px-6 py-4">
-                    <div className="font-medium text-primary-text text-xs">{repair.customerName}</div>
-                    <div className="text-[11px] text-secondary-text">{repair.customerPhone}</div>
+                    <div className="font-bold text-slate-900 text-sm">{repair.customerName}</div>
+                    <div className="text-xs font-semibold text-slate-500">{repair.customerPhone}</div>
                   </td>
-                  <td className="px-6 py-4 text-xs">
-                    <span className="font-semibold text-primary-text">{repair.brand}</span> {repair.appliance}
+                  <td className="px-6 py-4 text-sm whitespace-nowrap">
+                    <span className="font-bold text-slate-900">{repair.brand}</span> {repair.appliance}
                   </td>
-                  <td className="px-6 py-4 text-xs text-secondary-text max-w-xs truncate">
+                  <td className="px-6 py-4 text-sm font-medium text-slate-600 max-w-xs truncate">
                     {repair.issue}
                   </td>
-                  <td className="px-6 py-4 text-xs font-semibold whitespace-nowrap">
-                    {repair.cost ? `₹${repair.cost}` : <span className="text-gray-400 font-normal">Pending</span>}
+                  <td className="px-6 py-4 text-sm font-extrabold text-slate-900 whitespace-nowrap">
+                    {repair.cost ? `₹${repair.cost}` : <span className="text-slate-400 font-normal">Pending</span>}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <StatusBadge status={repair.status} />
                   </td>
                   <td className="px-6 py-4 text-right whitespace-nowrap">
-                    <div className="flex items-center justify-end gap-1.5">
+                    <div className="flex items-center justify-end gap-2">
                       {repair.status === 'Requested' && (
                         <>
                           <button
                             onClick={() => handleQuickApprove(repair)}
-                            className="p-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-lg transition"
+                            className="p-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-lg transition border border-emerald-200"
                             title="Approve Request"
                           >
                             <Check className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleQuickReject(repair)}
-                            className="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-lg transition"
+                            className="p-2 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-lg transition border border-rose-200"
                             title="Reject Request"
                           >
                             <X className="w-4 h-4" />
@@ -218,7 +217,7 @@ const OwnerDashboard = () => {
                           setCostInput(repair.cost ? String(repair.cost) : '');
                           setCourierInput(repair.assignedCourier || deliveryPersonnel[0].name);
                         }}
-                        className="px-2.5 py-1.5 bg-bg-light hover:bg-brand-accent text-secondary-text hover:text-brand-primary text-xs font-medium rounded-lg transition"
+                        className="px-3 py-1.5 bg-slate-100 hover:bg-teal-50 text-slate-800 hover:text-[#087F75] text-sm font-bold rounded-xl transition border border-slate-200 cursor-pointer"
                       >
                         Manage
                       </button>

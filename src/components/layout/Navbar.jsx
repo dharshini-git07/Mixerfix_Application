@@ -74,14 +74,14 @@ export default function Navbar() {
               <span className="text-xl font-extrabold tracking-tight text-[#142D3A]">
                 Mixer<span className="text-[#087F75]">Fix</span>
               </span>
-              <span className="hidden sm:inline-block ml-2 text-[10px] font-semibold tracking-wider uppercase text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full">
+              <span className="hidden sm:inline-block ml-2 text-xs font-bold tracking-wider uppercase text-slate-700 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200">
                 Smart Repair
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-6 text-sm font-medium text-slate-600">
+          <nav className="hidden lg:flex items-center space-x-6 text-sm font-bold text-slate-700">
             {navLinks.map((link) => (
               <a
                 key={link.label}
@@ -100,28 +100,28 @@ export default function Navbar() {
             <div className="relative">
               <button
                 onClick={() => setPortalDropdownOpen(!portalDropdownOpen)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition cursor-pointer border border-slate-200"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition cursor-pointer border border-slate-200"
               >
-                <LayoutDashboard className="w-3.5 h-3.5 text-[#087F75]" />
+                <LayoutDashboard className="w-4 h-4 text-[#087F75]" />
                 <span>3 Role Portals</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${portalDropdownOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-4 h-4 transition-transform ${portalDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {portalDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                  <div className="px-3 py-1.5 border-b border-slate-100">
-                    <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Select User Dashboard</p>
+                  <div className="px-3.5 py-2 border-b border-slate-100">
+                    <p className="text-xs font-bold text-slate-600 uppercase tracking-wider">Select Role Dashboard</p>
                   </div>
                   <button
                     onClick={() => handleRolePortalClick('customer', '/customer/overview')}
                     className="w-full text-left px-3.5 py-2.5 hover:bg-teal-50 flex items-center gap-3 transition cursor-pointer"
                   >
-                    <div className="w-7 h-7 rounded-lg bg-teal-100 text-[#087F75] flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-teal-100 text-[#087F75] flex items-center justify-center">
                       <User className="w-4 h-4" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-slate-800">1. Customer Portal</p>
-                      <p className="text-[10px] text-slate-500">Book, Track, Chat, Pay</p>
+                      <p className="text-sm font-bold text-slate-900">1. Customer Portal</p>
+                      <p className="text-xs font-semibold text-slate-500">Book, Track, Pay</p>
                     </div>
                   </button>
 
@@ -129,12 +129,12 @@ export default function Navbar() {
                     onClick={() => handleRolePortalClick('owner', '/owner/dashboard')}
                     className="w-full text-left px-3.5 py-2.5 hover:bg-sky-50 flex items-center gap-3 transition cursor-pointer"
                   >
-                    <div className="w-7 h-7 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center">
                       <Store className="w-4 h-4" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-slate-800">2. Shop Owner Hub</p>
-                      <p className="text-[10px] text-slate-500">Manage Repairs & Courier Fleet</p>
+                      <p className="text-sm font-bold text-slate-900">2. Shop Owner Hub</p>
+                      <p className="text-xs font-semibold text-slate-500">Repairs & Dispatch</p>
                     </div>
                   </button>
 
@@ -142,12 +142,12 @@ export default function Navbar() {
                     onClick={() => handleRolePortalClick('delivery', '/delivery/overview')}
                     className="w-full text-left px-3.5 py-2.5 hover:bg-amber-50 flex items-center gap-3 transition cursor-pointer"
                   >
-                    <div className="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
                       <Truck className="w-4 h-4" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-slate-800">3. Delivery Fleet App</p>
-                      <p className="text-[10px] text-slate-500">Doorstep Pickups & Returns</p>
+                      <p className="text-sm font-bold text-slate-900">3. Delivery Fleet</p>
+                      <p className="text-xs font-semibold text-slate-500">Pickups & Returns</p>
                     </div>
                   </button>
                 </div>
@@ -198,29 +198,29 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="lg:hidden border-b border-slate-200 bg-white px-4 pt-3 pb-6 space-y-4 animate-in slide-in-from-top-2 duration-200">
           {/* Quick Role Portal Buttons on Mobile */}
-          <div className="bg-slate-50 p-3 rounded-2xl border border-slate-150 space-y-2">
-            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Direct Role Portals:</p>
+          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-2.5">
+            <p className="text-xs font-bold text-slate-700 uppercase tracking-wider">Role Portals:</p>
             <div className="grid grid-cols-3 gap-2">
               <button
                 onClick={() => handleRolePortalClick('customer', '/customer/overview')}
-                className="p-2 rounded-xl bg-white border border-slate-200 text-center hover:bg-teal-50"
+                className="p-2.5 rounded-xl bg-white border border-slate-200 text-center hover:bg-teal-50"
               >
-                <User className="w-4 h-4 text-[#087F75] mx-auto mb-1" />
-                <span className="text-[11px] font-bold text-slate-700 block">Customer</span>
+                <User className="w-5 h-5 text-[#087F75] mx-auto mb-1" />
+                <span className="text-xs font-bold text-slate-800 block">Customer</span>
               </button>
               <button
                 onClick={() => handleRolePortalClick('owner', '/owner/dashboard')}
-                className="p-2 rounded-xl bg-white border border-slate-200 text-center hover:bg-sky-50"
+                className="p-2.5 rounded-xl bg-white border border-slate-200 text-center hover:bg-sky-50"
               >
-                <Store className="w-4 h-4 text-sky-600 mx-auto mb-1" />
-                <span className="text-[11px] font-bold text-slate-700 block">Shop Owner</span>
+                <Store className="w-5 h-5 text-sky-600 mx-auto mb-1" />
+                <span className="text-xs font-bold text-slate-800 block">Shop Owner</span>
               </button>
               <button
                 onClick={() => handleRolePortalClick('delivery', '/delivery/overview')}
-                className="p-2 rounded-xl bg-white border border-slate-200 text-center hover:bg-amber-50"
+                className="p-2.5 rounded-xl bg-white border border-slate-200 text-center hover:bg-amber-50"
               >
-                <Truck className="w-4 h-4 text-amber-600 mx-auto mb-1" />
-                <span className="text-[11px] font-bold text-slate-700 block">Delivery</span>
+                <Truck className="w-5 h-5 text-amber-600 mx-auto mb-1" />
+                <span className="text-xs font-bold text-slate-800 block">Delivery</span>
               </button>
             </div>
           </div>

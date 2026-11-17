@@ -15,9 +15,9 @@ import {
 
 export default function StatusBadge({ status, size = 'sm' }) {
   const sizeClasses = {
-    xs: 'text-xs px-2 py-0.5',
-    sm: 'text-xs px-2.5 py-1',
-    md: 'text-sm px-3 py-1.5 font-medium'
+    xs: 'text-xs px-2.5 py-0.5 font-bold',
+    sm: 'text-sm px-3 py-1 font-bold',
+    md: 'text-base px-3.5 py-1.5 font-bold'
   };
 
   const getStatusConfig = (st) => {
@@ -108,9 +108,9 @@ export default function StatusBadge({ status, size = 'sm' }) {
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border font-medium whitespace-nowrap shadow-xs ${config.bg} ${sizeClasses[size] || sizeClasses.sm}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border font-bold whitespace-nowrap shadow-xs ${config.bg} ${sizeClasses[size] || sizeClasses.sm}`}
     >
-      <IconComponent className="w-3.5 h-3.5 flex-shrink-0" />
+      <IconComponent className="w-4 h-4 flex-shrink-0" />
       <span>{config.label}</span>
     </span>
   );

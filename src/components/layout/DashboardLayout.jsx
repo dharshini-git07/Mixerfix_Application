@@ -57,16 +57,14 @@ export default function DashboardLayout({ children, role }) {
           <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-4 border border-amber-200">
             <ShieldAlert className="w-8 h-8" />
           </div>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full">
+          <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-3 py-1 rounded-full border border-amber-200">
             Role Restricted
           </span>
-          <h3 className="text-xl font-bold text-slate-900 mt-2">
+          <h3 className="text-xl font-bold text-slate-900 mt-3">
             {targetRoleKey === 'owner' ? 'Shop Owner' : targetRoleKey === 'delivery' ? 'Delivery Fleet' : 'Customer'} Portal
           </h3>
-          <p className="text-xs text-slate-500 mt-2 leading-relaxed">
-            You are currently signed in as <strong>{currentUser.name}</strong> with the{' '}
-            <strong className="uppercase text-slate-700">{currentUser.role}</strong> role. This section requires{' '}
-            <strong className="uppercase text-[#087F75]">{role}</strong> credentials.
+          <p className="text-sm font-medium text-slate-600 mt-2">
+            Requires <strong>{targetRoleKey.toUpperCase()}</strong> credentials. Switch account below.
           </p>
 
           <div className="mt-6 space-y-2">
@@ -74,9 +72,9 @@ export default function DashboardLayout({ children, role }) {
               onClick={() => {
                 switchDemoRole(targetRoleKey);
               }}
-              className="w-full py-2.5 bg-[#087F75] hover:bg-[#06635B] text-white font-bold text-xs rounded-xl shadow-xs transition cursor-pointer"
+              className="w-full py-3 bg-[#087F75] hover:bg-[#06635B] text-white font-bold text-sm rounded-xl shadow-xs transition cursor-pointer"
             >
-              Switch to {targetRoleKey.toUpperCase()} Account
+              Switch to {targetRoleKey.toUpperCase()}
             </button>
             <Link
               to={
@@ -86,9 +84,9 @@ export default function DashboardLayout({ children, role }) {
                   ? '/delivery/overview'
                   : '/customer/overview'
               }
-              className="w-full block py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition"
+              className="w-full block py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm rounded-xl transition"
             >
-              Return to My Dashboard ({currentUser.role})
+              My Dashboard ({currentUser.role})
             </Link>
           </div>
         </div>
@@ -143,22 +141,22 @@ export default function DashboardLayout({ children, role }) {
       case 'owner':
         return {
           title: 'Shop Owner Hub',
-          subtitle: currentUser?.shopName || 'Master Electronics Workshop',
-          badge: 'Verified Shop Partner',
-          color: 'bg-sky-50 text-sky-700 border-sky-200'
+          subtitle: 'Workshop Management',
+          badge: 'Shop Partner',
+          color: 'bg-sky-50 text-sky-800 border-sky-200'
         };
       case 'delivery':
         return {
-          title: 'Delivery Fleet Portal',
-          subtitle: currentUser?.zone || 'Bengaluru Logistics Zone',
+          title: 'Delivery Fleet',
+          subtitle: 'Fleet Operations',
           badge: 'Active Courier',
-          color: 'bg-amber-50 text-amber-700 border-amber-200'
+          color: 'bg-amber-50 text-amber-800 border-amber-200'
         };
       case 'customer':
       default:
         return {
-          title: 'Customer Service Portal',
-          subtitle: 'Manage your appliances & repair orders',
+          title: 'Customer Portal',
+          subtitle: 'Appliances & Orders',
           badge: 'Customer Account',
           color: 'bg-teal-50 text-[#087F75] border-teal-200'
         };
@@ -175,18 +173,18 @@ export default function DashboardLayout({ children, role }) {
           <div className="w-8 h-8 rounded-lg bg-[#087F75] flex items-center justify-center text-white">
             <Wrench className="w-4 h-4" />
           </div>
-          <span className="font-bold text-[#142D3A] text-lg">
+          <span className="font-extrabold text-[#142D3A] text-lg">
             Mixer<span className="text-[#087F75]">Fix</span>
           </span>
         </Link>
 
         <div className="flex items-center space-x-2">
-          <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full border ${headerInfo.color}`}>
+          <span className={`text-xs font-bold uppercase px-2.5 py-1 rounded-full border ${headerInfo.color}`}>
             {targetRoleKey}
           </span>
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 rounded-lg text-slate-600 hover:bg-slate-100"
+            className="p-2 rounded-lg text-slate-700 hover:bg-slate-100"
           >
             {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -203,7 +201,7 @@ export default function DashboardLayout({ children, role }) {
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#142D3A] text-slate-300 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto lg:min-h-screen flex flex-col justify-between ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#142D3A] text-slate-200 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto lg:min-h-screen flex flex-col justify-between ${
           sidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'
         }`}
       >
@@ -215,31 +213,31 @@ export default function DashboardLayout({ children, role }) {
                 <Wrench className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-xl font-extrabold text-white tracking-tight">
+                <span className="text-xl font-black text-white tracking-tight">
                   Mixer<span className="text-[#087F75]">Fix</span>
                 </span>
-                <span className="block text-[10px] text-teal-400 font-medium">Smart Electronic Care</span>
+                <span className="block text-xs text-teal-300 font-bold uppercase tracking-wider">Smart Care</span>
               </div>
             </Link>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="lg:hidden text-slate-400 hover:text-white p-1"
+              className="lg:hidden text-slate-300 hover:text-white p-1"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
           {/* User Profile Card in Sidebar */}
-          <div className="p-4 mx-3 my-3 bg-slate-800/60 rounded-xl border border-slate-700/60 flex items-center space-x-3">
+          <div className="p-4 mx-3 my-3 bg-slate-800/80 rounded-xl border border-slate-700/80 flex items-center space-x-3">
             <img
               src={currentUser?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'}
               alt={currentUser?.name}
-              className="w-10 h-10 rounded-full object-cover border-2 border-teal-500/50"
+              className="w-10 h-10 rounded-full object-cover border-2 border-teal-400"
             />
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-white truncate">{currentUser?.name}</p>
-              <span className="inline-block text-[10px] text-teal-300 font-medium capitalize">
-                {targetRoleKey === 'owner' ? 'Shop Owner' : targetRoleKey === 'delivery' ? 'Delivery Agent' : 'Customer'}
+              <p className="text-sm font-bold text-white truncate">{currentUser?.name}</p>
+              <span className="inline-block text-xs text-teal-300 font-bold uppercase tracking-wider">
+                {targetRoleKey === 'owner' ? 'Shop Owner' : targetRoleKey === 'delivery' ? 'Courier' : 'Customer'}
               </span>
             </div>
           </div>
@@ -255,18 +253,18 @@ export default function DashboardLayout({ children, role }) {
                   key={item.path}
                   to={item.path}
                   onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all group ${
+                  className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all group ${
                     isActive
-                      ? 'bg-[#087F75] text-white shadow-md shadow-[#087F75]/30 font-semibold'
+                      ? 'bg-[#087F75] text-white shadow-md shadow-[#087F75]/30'
                       : item.highlight
-                      ? 'bg-teal-900/40 text-teal-200 hover:bg-teal-900/70 border border-teal-700/40'
-                      : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                      ? 'bg-teal-900/60 text-teal-200 hover:bg-teal-900 border border-teal-600'
+                      : 'text-slate-200 hover:bg-slate-800 hover:text-white'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
                     <IconComp
-                      className={`w-4 h-4 transition-transform group-hover:scale-110 ${
-                        isActive ? 'text-white' : item.highlight ? 'text-teal-300' : 'text-slate-400 group-hover:text-white'
+                      className={`w-5 h-5 transition-transform group-hover:scale-110 ${
+                        isActive ? 'text-white' : item.highlight ? 'text-teal-300' : 'text-slate-300 group-hover:text-white'
                       }`}
                     />
                     <span>{item.label}</span>
@@ -274,7 +272,7 @@ export default function DashboardLayout({ children, role }) {
 
                   {item.badge !== undefined && item.badge > 0 && (
                     <span
-                      className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                      className={`text-xs px-2.5 py-0.5 rounded-full font-bold ${
                         isActive
                           ? 'bg-white text-[#087F75]'
                           : 'bg-[#087F75] text-white'
@@ -293,15 +291,15 @@ export default function DashboardLayout({ children, role }) {
         <div className="p-3 border-t border-slate-800 space-y-2">
           <Link
             to="/"
-            className="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-xs text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition"
+            className="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition"
           >
             <Store className="w-4 h-4" />
-            <span>Visit Public Website</span>
+            <span>Public Website</span>
           </Link>
 
           <button
             onClick={handleLogout}
-            className="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-xs text-rose-400 hover:bg-rose-950/40 hover:text-rose-300 transition cursor-pointer"
+            className="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-sm font-bold text-rose-400 hover:bg-rose-950/40 hover:text-rose-300 transition cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
             <span>Sign Out</span>
@@ -312,30 +310,30 @@ export default function DashboardLayout({ children, role }) {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         {/* Top Navbar */}
-        <header className="hidden lg:flex items-center justify-between bg-white border-b border-slate-200/80 px-8 py-3.5 sticky top-0 z-20">
+        <header className="hidden lg:flex items-center justify-between bg-white border-b border-slate-200 px-8 py-3.5 sticky top-0 z-20 shadow-xs">
           <div>
-            <div className="flex items-center space-x-2">
-              <h2 className="text-base font-bold text-slate-900">{headerInfo.title}</h2>
-              <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${headerInfo.color}`}>
+            <div className="flex items-center space-x-3">
+              <h2 className="text-lg font-extrabold text-slate-900">{headerInfo.title}</h2>
+              <span className={`text-xs font-bold px-3 py-0.5 rounded-full border ${headerInfo.color}`}>
                 {headerInfo.badge}
               </span>
             </div>
-            <p className="text-xs text-slate-500 mt-0.5">{headerInfo.subtitle}</p>
+            <p className="text-sm font-semibold text-slate-600 mt-0.5">{headerInfo.subtitle}</p>
           </div>
 
           <div className="flex items-center space-x-4">
             {/* Quick Demo Switcher Prompt */}
-            <div className="flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 text-xs text-slate-600">
-              <span className="text-slate-400">Viewing as:</span>
-              <strong className="text-slate-800 font-semibold">{currentUser?.name}</strong>
+            <div className="flex items-center gap-2 bg-slate-100 px-3.5 py-1.5 rounded-xl border border-slate-200 text-sm font-medium text-slate-700">
+              <span className="text-slate-500">User:</span>
+              <strong className="text-slate-900 font-bold">{currentUser?.name}</strong>
               <span className="text-slate-300">|</span>
-              <Link to="/#hero" className="text-[#087F75] hover:underline font-medium text-xs">Home</Link>
+              <Link to="/#hero" className="text-[#087F75] hover:underline font-bold text-sm">Home</Link>
             </div>
 
             <img
               src={currentUser?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'}
               alt={currentUser?.name}
-              className="w-9 h-9 rounded-full object-cover ring-2 ring-[#087F75]/20 shadow-xs"
+              className="w-9 h-9 rounded-full object-cover ring-2 ring-[#087F75]/30 shadow-xs"
             />
           </div>
         </header>

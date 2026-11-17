@@ -287,17 +287,17 @@ export default function LandingPage() {
       </section>
 
       {/* 3 Role Portals Showcase Section */}
-      <section className="py-16 bg-gradient-to-b from-[#F5F8F8] to-white border-b border-slate-200/80">
+      <section className="py-16 bg-gradient-to-b from-[#F5F8F8] to-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#087F75] bg-[#DDF4EF] px-3.5 py-1.5 rounded-full border border-teal-200">
-              Interactive Multi-Role Experience
+            <span className="text-xs font-bold uppercase tracking-wider text-[#087F75] bg-[#DDF4EF] px-4 py-1.5 rounded-full border border-teal-200">
+              Interactive Portals
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#142D3A] tracking-tight mt-3">
-              One Unified System, 3 Dedicated Role Dashboards
+              One Unified System, 3 Role Portals
             </h2>
-            <p className="text-slate-600 text-sm sm:text-base mt-2">
-              Mixer Fix powers the entire lifecycle. Click any portal below to explore its live interactive dashboard!
+            <p className="text-slate-600 text-base font-medium mt-2">
+              Explore the live workflow from each stakeholder's view.
             </p>
           </div>
 
@@ -309,48 +309,48 @@ export default function LandingPage() {
                   <div className="w-12 h-12 rounded-2xl bg-teal-50 text-[#087F75] flex items-center justify-center font-bold shadow-xs">
                     <User className="w-6 h-6" />
                   </div>
-                  <span className="text-[11px] font-bold uppercase tracking-wide bg-teal-50 text-[#087F75] px-2.5 py-1 rounded-full border border-teal-200">
+                  <span className="text-xs font-bold uppercase tracking-wide bg-teal-50 text-[#087F75] px-3 py-1 rounded-full border border-teal-200">
                     Role 1
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-[#142D3A]">Customer Portal</h3>
-                  <p className="text-xs text-slate-500 mt-1">For appliance owners seeking swift, trackable repairs</p>
+                  <h3 className="text-xl font-extrabold text-[#142D3A]">Customer Portal</h3>
+                  <p className="text-sm font-medium text-slate-500 mt-1">Book, track and pay for repairs</p>
                 </div>
-                <div className="pt-2 border-t border-slate-100 space-y-2.5 text-xs text-slate-600">
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#087F75] shrink-0 mt-0.5" />
-                    <span>Register repair complaints with photos & video uploads</span>
+                <div className="pt-2 border-t border-slate-100 space-y-2.5 text-sm font-medium text-slate-700">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#087F75] shrink-0" />
+                    <span>Book repairs with photo/video upload</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#087F75] shrink-0 mt-0.5" />
-                    <span>Real-time 9-stage visual progress timeline</span>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#087F75] shrink-0" />
+                    <span>9-stage visual progress timeline</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#087F75] shrink-0 mt-0.5" />
-                    <span>Live 2-way chat with workshop technicians</span>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#087F75] shrink-0" />
+                    <span>Live 2-way chat with technicians</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#087F75] shrink-0 mt-0.5" />
-                    <span>Simulated UPI, Card & Cash on Delivery checkout</span>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#087F75] shrink-0" />
+                    <span>Secure UPI, Card & COD checkout</span>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-6 flex flex-col gap-2">
+              <div className="pt-6 flex flex-col gap-2.5">
                 <button
                   onClick={() => {
                     switchDemoRole('customer');
                     navigate('/customer/overview');
                   }}
-                  className="w-full py-3 bg-[#087F75] hover:bg-[#06635B] text-white font-bold text-xs rounded-xl shadow-md shadow-[#087F75]/20 transition flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-3 bg-[#087F75] hover:bg-[#06635B] text-white font-bold text-sm rounded-xl shadow-md shadow-[#087F75]/20 transition flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span>Open Customer Portal</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
                 <Link
                   to="/register?role=customer"
-                  className="w-full py-2 bg-teal-50 hover:bg-teal-100 text-[#087F75] font-semibold text-xs rounded-xl text-center border border-teal-200/60 transition"
+                  className="w-full py-2.5 bg-teal-50 hover:bg-teal-100 text-[#087F75] font-bold text-sm rounded-xl text-center border border-teal-200/60 transition"
                 >
                   + New Customer Registration
                 </Link>
@@ -364,50 +364,50 @@ export default function LandingPage() {
                   <div className="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold shadow-xs">
                     <Store className="w-6 h-6" />
                   </div>
-                  <span className="text-[11px] font-bold uppercase tracking-wide bg-sky-50 text-sky-700 px-2.5 py-1 rounded-full border border-sky-200">
+                  <span className="text-xs font-bold uppercase tracking-wide bg-sky-50 text-sky-700 px-3 py-1 rounded-full border border-sky-200">
                     Role 2
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-[#142D3A]">Shop Owner Hub</h3>
-                  <p className="text-xs text-slate-500 mt-1">For repair workshop managers & electrical engineers</p>
+                  <h3 className="text-xl font-extrabold text-[#142D3A]">Shop Owner Hub</h3>
+                  <p className="text-sm font-medium text-slate-500 mt-1">Manage workshop tickets & logistics</p>
                 </div>
-                <div className="pt-2 border-t border-slate-100 space-y-2.5 text-xs text-slate-600">
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
-                    <span>Review inbound complaints; Approve or Reject tickets</span>
+                <div className="pt-2 border-t border-slate-100 space-y-2.5 text-sm font-medium text-slate-700">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0" />
+                    <span>Approve or reject repair tickets</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
-                    <span>Set diagnostic notes & estimated cost quotations</span>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0" />
+                    <span>Set diagnosis & price quotations</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
-                    <span>Assign pickup & return tasks to courier fleet</span>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0" />
+                    <span>Assign couriers for pickup & return</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
-                    <span>Customer directory, billing records & revenue metrics</span>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0" />
+                    <span>Customer billing & revenue metrics</span>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-6 flex flex-col gap-2">
+              <div className="pt-6 flex flex-col gap-2.5">
                 <button
                   onClick={() => {
                     switchDemoRole('owner');
                     navigate('/owner/dashboard');
                   }}
-                  className="w-full py-3 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl shadow-md shadow-sky-600/20 transition flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-3 bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm rounded-xl shadow-md shadow-sky-600/20 transition flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span>Open Shop Owner Hub</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
                 <Link
                   to="/register?role=owner"
-                  className="w-full py-2 bg-sky-50 hover:bg-sky-100 text-sky-800 font-semibold text-xs rounded-xl text-center border border-sky-200/60 transition"
+                  className="w-full py-2.5 bg-sky-50 hover:bg-sky-100 text-sky-800 font-bold text-sm rounded-xl text-center border border-sky-200/60 transition"
                 >
-                  + Register New Workshop
+                  + Register Workshop
                 </Link>
               </div>
             </div>
@@ -419,50 +419,50 @@ export default function LandingPage() {
                   <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold shadow-xs">
                     <Truck className="w-6 h-6" />
                   </div>
-                  <span className="text-[11px] font-bold uppercase tracking-wide bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full border border-amber-200">
+                  <span className="text-xs font-bold uppercase tracking-wide bg-amber-50 text-amber-700 px-3 py-1 rounded-full border border-amber-200">
                     Role 3
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-[#142D3A]">Delivery Fleet App</h3>
-                  <p className="text-xs text-slate-500 mt-1">For doorstep pickup executives & transit couriers</p>
+                  <h3 className="text-xl font-extrabold text-[#142D3A]">Delivery Fleet</h3>
+                  <p className="text-sm font-medium text-slate-500 mt-1">Doorstep pickup & return couriers</p>
                 </div>
-                <div className="pt-2 border-t border-slate-100 space-y-2.5 text-xs text-slate-600">
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                    <span>View pickup tasks with street addresses & directions</span>
+                <div className="pt-2 border-t border-slate-100 space-y-2.5 text-sm font-medium text-slate-700">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0" />
+                    <span>View pickup tasks & addresses</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                    <span>1-click direct phone dialer to reach customers</span>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0" />
+                    <span>1-click customer phone dialer</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                    <span>Update statuses: "Mark Picked Up", "Reached Shop"</span>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0" />
+                    <span>Update transit status in real time</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                    <span>Return delivery & COD cash collection verification</span>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0" />
+                    <span>Verify return delivery & COD cash</span>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-6 flex flex-col gap-2">
+              <div className="pt-6 flex flex-col gap-2.5">
                 <button
                   onClick={() => {
                     switchDemoRole('delivery');
                     navigate('/delivery/overview');
                   }}
-                  className="w-full py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-md shadow-amber-600/20 transition flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm rounded-xl shadow-md shadow-amber-600/20 transition flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>Open Delivery Fleet App</span>
+                  <span>Open Delivery Fleet</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
                 <Link
                   to="/register?role=delivery"
-                  className="w-full py-2 bg-amber-50 hover:bg-amber-100 text-amber-800 font-semibold text-xs rounded-xl text-center border border-amber-200/60 transition"
+                  className="w-full py-2.5 bg-amber-50 hover:bg-amber-100 text-amber-800 font-bold text-sm rounded-xl text-center border border-amber-200/60 transition"
                 >
-                  + Join as Delivery Agent
+                  + Join Delivery Fleet
                 </Link>
               </div>
             </div>

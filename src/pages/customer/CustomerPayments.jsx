@@ -385,52 +385,53 @@ const CustomerPayments = () => {
       {/* Header */}
       <div>
         <div className="flex items-center gap-2">
-          <h1 className="text-2xl font-extrabold text-[#142D3A] font-heading tracking-tight">
-            Service Payments & Invoices
+          <h1 className="text-3xl font-black text-slate-900 font-heading tracking-tight">
+            Payments & Invoices
           </h1>
-          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-teal-100 text-[#087F75] border border-teal-200">
-            Razorpay Integration
+          <span className="px-3 py-1 rounded-full text-xs font-bold bg-teal-100 text-[#087F75] border border-teal-200">
+            Razorpay Gateway
           </span>
         </div>
-        <p className="text-secondary-text text-xs sm:text-sm mt-1">
-          Settle inspected appliance repair invoices using Razorpay Standard Checkout (Test Mode) or Cash on Delivery.
+        <p className="text-slate-600 text-base font-medium mt-1">
+          Pay approved repair invoices securely with Razorpay or Cash on Delivery.
         </p>
       </div>
 
       {/* Gateway Status Micro-Banner */}
-      <div className="bg-gradient-to-r from-teal-50 to-emerald-50 border border-teal-200/80 rounded-2xl p-4 flex items-start gap-3 text-teal-900 shadow-2xs">
-        <ShieldCheck className="w-5 h-5 text-[#087F75] shrink-0 mt-0.5" />
-        <div className="text-xs leading-relaxed">
-          <strong className="text-slate-900">Razorpay Test Gateway Ready:</strong> Test payments are verified via server-side HMAC-SHA256 signatures before updating repair records. You can safely complete transactions using test cards or UPI without incurring real charges.
+      <div className="bg-gradient-to-r from-teal-50 to-emerald-50 border border-teal-200 rounded-2xl p-4 flex items-center gap-3 text-teal-950 shadow-2xs">
+        <ShieldCheck className="w-5 h-5 text-[#087F75] shrink-0" />
+        <div className="text-sm font-medium">
+          <strong className="text-slate-900 font-bold">Secure Gateway: </strong>
+          Razorpay test mode verified with HMAC-SHA256 signatures.
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Payment Checkout Module */}
         <div className="lg:col-span-7 space-y-6">
-          <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-card space-y-5">
-            <h2 className="font-bold text-primary-text text-base flex items-center justify-between">
-              <span>Payment Checkout</span>
-              <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full flex items-center gap-1 border border-emerald-200">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Standard Checkout
+          <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-card space-y-5">
+            <h2 className="font-extrabold text-slate-900 text-lg flex items-center justify-between">
+              <span>Checkout</span>
+              <span className="text-xs font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full flex items-center gap-1.5 border border-emerald-200">
+                <ShieldCheck className="w-4 h-4 text-emerald-600" /> Standard Checkout
               </span>
             </h2>
 
             {/* Select Repair Order */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                Select Pending Repair Order
+              <label className="block text-sm font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+                Select Pending Invoice
               </label>
               {payableRepairs.length === 0 ? (
-                <div className="p-5 bg-teal-50/50 border border-teal-100 rounded-2xl text-center text-xs text-teal-800 space-y-1">
-                  <div className="font-bold text-sm text-[#087F75]">🎉 All Invoices Settled!</div>
-                  <p className="text-slate-500">You have no unpaid bills pending inspection or settlement.</p>
+                <div className="p-5 bg-teal-50 border border-teal-200 rounded-2xl text-center space-y-1">
+                  <div className="font-bold text-base text-[#087F75]">🎉 All Invoices Settled!</div>
+                  <p className="text-sm font-medium text-slate-600">No unpaid repair bills at this time.</p>
                 </div>
               ) : (
                 <select
                   value={selectedRepairId}
                   onChange={(e) => setSelectedRepairId(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#087F75]/20 focus:border-[#087F75] bg-white transition cursor-pointer font-medium"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-[#087F75]/20 focus:border-[#087F75] bg-white transition cursor-pointer"
                 >
                   {payableRepairs.map((repair) => (
                     <option key={repair.id} value={repair.id}>
@@ -443,26 +444,26 @@ const CustomerPayments = () => {
 
             {/* Cost Breakdown if selected */}
             {activePayable && activePayable.paymentStatus !== 'Paid' && (
-              <div className="bg-slate-50/80 p-4 rounded-2xl border border-slate-200/60 space-y-2 text-xs">
-                <div className="flex justify-between text-secondary-text">
-                  <span>Appliance & Category:</span>
-                  <span className="font-semibold text-primary-text">{activePayable.brand} {activePayable.appliance}</span>
+              <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2 text-sm font-medium">
+                <div className="flex justify-between text-slate-600">
+                  <span>Appliance:</span>
+                  <span className="font-bold text-slate-900">{activePayable.brand} {activePayable.appliance}</span>
                 </div>
-                <div className="flex justify-between text-secondary-text">
+                <div className="flex justify-between text-slate-600">
                   <span>Inspection Status:</span>
-                  <span className="font-medium text-teal-700">{activePayable.status}</span>
+                  <span className="font-bold text-[#087F75]">{activePayable.status}</span>
                 </div>
-                <div className="flex justify-between text-secondary-text">
-                  <span>Diagnostic Labor & Testing:</span>
-                  <span className="font-medium text-primary-text">₹{Math.round(activePayable.cost * 0.4)}</span>
+                <div className="flex justify-between text-slate-600">
+                  <span>Diagnostics & Testing:</span>
+                  <span className="font-bold text-slate-900">₹{Math.round(activePayable.cost * 0.4)}</span>
                 </div>
-                <div className="flex justify-between text-secondary-text">
-                  <span>OEM Replacement Parts:</span>
-                  <span className="font-medium text-primary-text">₹{Math.round(activePayable.cost * 0.6)}</span>
+                <div className="flex justify-between text-slate-600">
+                  <span>Replacement Spares:</span>
+                  <span className="font-bold text-slate-900">₹{Math.round(activePayable.cost * 0.6)}</span>
                 </div>
-                <div className="border-t border-slate-200 pt-2.5 flex justify-between text-sm font-extrabold text-primary-text">
-                  <span>Total Amount Due:</span>
-                  <span className="text-xl text-[#087F75]">₹{activePayable.cost}</span>
+                <div className="border-t border-slate-200 pt-2.5 flex justify-between text-base font-extrabold text-slate-900">
+                  <span>Total Due:</span>
+                  <span className="text-2xl text-[#087F75]">₹{activePayable.cost}</span>
                 </div>
               </div>
             )}
@@ -470,82 +471,82 @@ const CustomerPayments = () => {
             {/* Payment Method Selector */}
             {activePayable && activePayable.paymentStatus !== 'Paid' && (
               <div className="space-y-4 pt-2">
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                  Choose Payment Gateway:
+                <label className="block text-sm font-bold text-slate-700 uppercase tracking-wider">
+                  Payment Method:
                 </label>
 
                 <div className="grid grid-cols-3 gap-2.5">
                   <button
                     type="button"
                     onClick={() => setPaymentChannel('razorpay')}
-                    className={`p-3 rounded-2xl border text-center transition flex flex-col items-center gap-1.5 cursor-pointer ${
+                    className={`p-3.5 rounded-2xl border text-center transition flex flex-col items-center gap-1.5 cursor-pointer ${
                       paymentChannel === 'razorpay'
-                        ? 'border-[#087F75] bg-teal-50/70 text-[#087F75] font-bold shadow-xs'
-                        : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                        ? 'border-[#087F75] bg-teal-50 text-[#087F75] font-bold shadow-xs'
+                        : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
                     <CreditCard className="w-5 h-5 text-[#087F75]" />
-                    <span className="text-xs">Razorpay</span>
-                    <span className="text-[9px] font-semibold text-emerald-700 bg-emerald-100 px-1.5 py-0.2 rounded">
-                      Standard
+                    <span className="text-sm font-bold">Razorpay</span>
+                    <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-md">
+                      Online
                     </span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setPaymentChannel('cod')}
-                    className={`p-3 rounded-2xl border text-center transition flex flex-col items-center gap-1.5 cursor-pointer ${
+                    className={`p-3.5 rounded-2xl border text-center transition flex flex-col items-center gap-1.5 cursor-pointer ${
                       paymentChannel === 'cod'
                         ? 'border-amber-600 bg-amber-50 text-amber-800 font-bold shadow-xs'
-                        : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                        : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
                     <Banknote className="w-5 h-5 text-amber-600" />
-                    <span className="text-xs">Cash on Delivery</span>
-                    <span className="text-[9px] text-slate-400">Doorstep</span>
+                    <span className="text-sm font-bold">Cash on Delivery</span>
+                    <span className="text-xs font-semibold text-slate-500">Doorstep</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setPaymentChannel('simulated')}
-                    className={`p-3 rounded-2xl border text-center transition flex flex-col items-center gap-1.5 cursor-pointer ${
+                    className={`p-3.5 rounded-2xl border text-center transition flex flex-col items-center gap-1.5 cursor-pointer ${
                       paymentChannel === 'simulated'
                         ? 'border-sky-600 bg-sky-50 text-sky-800 font-bold shadow-xs'
-                        : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                        : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
                     <Zap className="w-5 h-5 text-sky-600" />
-                    <span className="text-xs">Dev Sandbox</span>
-                    <span className="text-[9px] text-slate-400">Offline Mock</span>
+                    <span className="text-sm font-bold">Sandbox</span>
+                    <span className="text-xs font-semibold text-slate-500">Instant Mock</span>
                   </button>
                 </div>
 
                 {/* Razorpay Gateway Description */}
                 {paymentChannel === 'razorpay' && (
-                  <div className="p-4 bg-teal-50/40 border border-teal-200/60 rounded-2xl space-y-3">
-                    <div className="flex items-center gap-2 text-xs font-bold text-teal-900">
+                  <div className="p-4 bg-teal-50 border border-teal-200 rounded-2xl space-y-3">
+                    <div className="flex items-center gap-2 text-sm font-bold text-teal-950">
                       <ShieldCheck className="w-4 h-4 text-[#087F75]" />
-                      <span>Razorpay Standard Checkout (Test Mode)</span>
+                      <span>Razorpay Standard Checkout</span>
                     </div>
-                    <p className="text-xs text-slate-600 leading-relaxed">
-                      Accepts Test Credit/Debit Cards, UPI apps (GPay, PhonePe, Paytm), and NetBanking. Order verification occurs securely on the Node.js backend using HMAC-SHA256 signatures.
+                    <p className="text-sm font-medium text-slate-600 leading-relaxed">
+                      Accepts UPI (GPay, PhonePe, Paytm), Cards & NetBanking.
                     </p>
 
                     <button
                       type="button"
                       disabled={isProcessing}
                       onClick={handleRazorpayCheckout}
-                      className="w-full py-3.5 bg-[#087F75] hover:bg-[#06635B] text-white text-xs sm:text-sm font-bold rounded-xl shadow-md shadow-[#087F75]/25 transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                      className="w-full py-3.5 bg-[#087F75] hover:bg-[#06635B] text-white text-sm font-bold rounded-xl shadow-md shadow-[#087F75]/25 transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
                     >
                       {isProcessing ? (
                         <>
                           <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          <span>{processingStep || 'Processing Payment...'}</span>
+                          <span>{processingStep || 'Processing...'}</span>
                         </>
                       ) : (
                         <>
                           <CreditCard className="w-4 h-4" />
-                          <span>Pay ₹{activePayable.cost} with Razorpay</span>
+                          <span>Pay ₹{activePayable.cost} via Razorpay</span>
                           <ArrowRight className="w-4 h-4" />
                         </>
                       )}
@@ -555,21 +556,59 @@ const CustomerPayments = () => {
 
                 {/* Cash on Delivery Flow */}
                 {paymentChannel === 'cod' && (
-                  <div className="p-4 bg-amber-50/60 border border-amber-200/80 rounded-2xl space-y-3">
-                    <div className="flex items-center gap-2 text-xs font-bold text-amber-900">
+                  <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl space-y-3">
+                    <div className="flex items-center gap-2 text-sm font-bold text-amber-950">
                       <Banknote className="w-4 h-4 text-amber-700" />
-                      <span>Cash on Return Delivery</span>
+                      <span>Cash on Delivery</span>
                     </div>
-                    <p className="text-xs text-slate-600 leading-relaxed">
-                      Pay cash directly to the delivery personnel once your appliance is fixed and delivered back to your doorstep.
+                    <p className="text-sm font-medium text-slate-600 leading-relaxed">
+                      Pay cash to courier upon return delivery.
                     </p>
                     <button
                       type="button"
                       disabled={isProcessing}
                       onClick={handleCODSubmit}
-                      className="w-full py-3 bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md shadow-amber-600/20 transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                      className="w-full py-3.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-bold rounded-xl shadow-md shadow-amber-600/20 transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
                     >
-                      {isProcessing ? 'Confirming COD...' : `Confirm Cash on Delivery (₹${activePayable.cost})`}
+                      {isProcessing ? 'Confirming...' : `Confirm COD (₹${activePayable.cost})`}
+                    </button>
+                  </div>
+                )}
+
+                {/* Dev Sandbox Flow */}
+                {paymentChannel === 'simulated' && (
+                  <div className="p-4 bg-sky-50 border border-sky-200 rounded-2xl space-y-3">
+                    <div className="flex items-center gap-2 text-sm font-bold text-sky-950">
+                      <Zap className="w-4 h-4 text-sky-700" />
+                      <span>Sandbox Mock</span>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setSimulatedSubMethod('UPI')}
+                        className={`flex-1 py-2 text-sm font-bold rounded-xl border ${
+                          simulatedSubMethod === 'UPI' ? 'bg-sky-600 text-white border-sky-600' : 'bg-white text-slate-700 border-slate-200'
+                        }`}
+                      >
+                        Mock UPI
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setSimulatedSubMethod('Card')}
+                        className={`flex-1 py-2 text-sm font-bold rounded-xl border ${
+                          simulatedSubMethod === 'Card' ? 'bg-sky-600 text-white border-sky-600' : 'bg-white text-slate-700 border-slate-200'
+                        }`}
+                      >
+                        Mock Card
+                      </button>
+                    </div>
+                    <button
+                      type="button"
+                      disabled={isProcessing}
+                      onClick={handleSimulateSubmit}
+                      className="w-full py-3.5 bg-sky-700 hover:bg-sky-800 text-white text-sm font-bold rounded-xl transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                    >
+                      {isProcessing ? 'Simulating...' : `Instant Simulate ₹${activePayable.cost}`}
                     </button>
                   </div>
                 )}

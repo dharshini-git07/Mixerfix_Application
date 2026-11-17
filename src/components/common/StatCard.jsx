@@ -80,17 +80,17 @@ export default function StatCard({
     <div className={`group bg-white p-5 rounded-2xl border border-slate-100 shadow-soft hover:shadow-md transition-all duration-300 relative overflow-hidden ring-1 ring-slate-100 ${scheme.glow}`}>
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">{title}</p>
-          <h3 className="text-2xl font-bold text-slate-900 mt-1.5 tracking-tight">{value}</h3>
+          <p className="text-sm font-bold uppercase tracking-wider text-slate-700">{title}</p>
+          <h3 className="text-3xl font-extrabold text-slate-900 mt-1.5 tracking-tight">{value}</h3>
           
           {(trend || displaySub) && (
-            <div className="flex items-center gap-1.5 mt-2">
+            <div className="flex items-center gap-2 mt-2">
               {trend && (
-                <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">
+                <span className="text-sm font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
                   {trend}
                 </span>
               )}
-              {displaySub && <span className="text-xs text-slate-500">{displaySub}</span>}
+              {displaySub && <span className="text-sm font-semibold text-slate-600">{displaySub}</span>}
             </div>
           )}
         </div>

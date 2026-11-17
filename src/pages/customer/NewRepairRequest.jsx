@@ -157,27 +157,27 @@ const NewRepairRequest = () => {
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-primary-text font-heading">
-          Book a New Appliance Repair
+        <h1 className="text-3xl font-black text-slate-900 font-heading">
+          Book Appliance Repair
         </h1>
-        <p className="text-secondary-text text-sm mt-1">
-          Tell us about the issue and choose a pickup date. Our verified technicians will take care of the rest.
+        <p className="text-slate-600 text-base font-medium mt-1">
+          Enter appliance details & schedule doorstep pickup.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Step 1: Customer Contact Info */}
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-gray-100">
-            <span className="w-7 h-7 rounded-full bg-brand-accent text-brand-primary font-bold text-xs flex items-center justify-center">
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
+            <span className="w-8 h-8 rounded-full bg-teal-100 text-[#087F75] font-bold text-sm flex items-center justify-center">
               1
             </span>
-            <h2 className="font-semibold text-primary-text">Customer Information</h2>
+            <h2 className="font-bold text-base text-slate-900">Customer Details</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-medium text-primary-text mb-1.5">
+              <label className="block text-sm font-bold text-slate-700 mb-1.5">
                 Full Name *
               </label>
               <input
@@ -186,17 +186,17 @@ const NewRepairRequest = () => {
                 value={formData.customerName}
                 onChange={handleChange}
                 placeholder="e.g. Rahul Sharma"
-                className={`w-full px-3.5 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 ${
-                  errors.customerName ? 'border-danger-text' : 'border-gray-200'
+                className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-[#087F75]/20 ${
+                  errors.customerName ? 'border-rose-500' : 'border-slate-200'
                 }`}
               />
               {errors.customerName && (
-                <p className="text-xs text-danger-text mt-1">{errors.customerName}</p>
+                <p className="text-xs font-semibold text-rose-600 mt-1">{errors.customerName}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-primary-text mb-1.5">
+              <label className="block text-sm font-bold text-slate-700 mb-1.5">
                 Phone Number *
               </label>
               <input
@@ -205,17 +205,17 @@ const NewRepairRequest = () => {
                 value={formData.customerPhone}
                 onChange={handleChange}
                 placeholder="+91 98765 43210"
-                className={`w-full px-3.5 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 ${
-                  errors.customerPhone ? 'border-danger-text' : 'border-gray-200'
+                className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-[#087F75]/20 ${
+                  errors.customerPhone ? 'border-rose-500' : 'border-slate-200'
                 }`}
               />
               {errors.customerPhone && (
-                <p className="text-xs text-danger-text mt-1">{errors.customerPhone}</p>
+                <p className="text-xs font-semibold text-rose-600 mt-1">{errors.customerPhone}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-primary-text mb-1.5">
+              <label className="block text-sm font-bold text-slate-700 mb-1.5">
                 Email Address *
               </label>
               <input
@@ -224,36 +224,36 @@ const NewRepairRequest = () => {
                 value={formData.customerEmail}
                 onChange={handleChange}
                 placeholder="rahul@example.com"
-                className={`w-full px-3.5 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 ${
-                  errors.customerEmail ? 'border-danger-text' : 'border-gray-200'
+                className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-[#087F75]/20 ${
+                  errors.customerEmail ? 'border-rose-500' : 'border-slate-200'
                 }`}
               />
               {errors.customerEmail && (
-                <p className="text-xs text-danger-text mt-1">{errors.customerEmail}</p>
+                <p className="text-xs font-semibold text-rose-600 mt-1">{errors.customerEmail}</p>
               )}
             </div>
           </div>
         </div>
 
         {/* Step 2: Appliance Details */}
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-gray-100">
-            <span className="w-7 h-7 rounded-full bg-brand-accent text-brand-primary font-bold text-xs flex items-center justify-center">
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
+            <span className="w-8 h-8 rounded-full bg-teal-100 text-[#087F75] font-bold text-sm flex items-center justify-center">
               2
             </span>
-            <h2 className="font-semibold text-primary-text">Appliance Details</h2>
+            <h2 className="font-bold text-base text-slate-900">Appliance Details</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-medium text-primary-text mb-1.5">
+              <label className="block text-sm font-bold text-slate-700 mb-1.5">
                 Appliance Category *
               </label>
               <select
                 name="appliance"
                 value={formData.appliance}
                 onChange={handleChange}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 bg-white"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-[#087F75]/20 bg-white"
               >
                 {APPLIANCE_CATEGORIES.map((cat) => (
                   <option key={cat.id} value={cat.name}>
@@ -264,26 +264,26 @@ const NewRepairRequest = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-primary-text mb-1.5">
-                Brand / Manufacturer *
+              <label className="block text-sm font-bold text-slate-700 mb-1.5">
+                Brand *
               </label>
               <input
                 type="text"
                 name="brand"
                 value={formData.brand}
                 onChange={handleChange}
-                placeholder="e.g. Philips, Samsung, Preethi"
-                className={`w-full px-3.5 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 ${
-                  errors.brand ? 'border-danger-text' : 'border-gray-200'
+                placeholder="e.g. Philips, Samsung"
+                className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-[#087F75]/20 ${
+                  errors.brand ? 'border-rose-500' : 'border-slate-200'
                 }`}
               />
               {errors.brand && (
-                <p className="text-xs text-danger-text mt-1">{errors.brand}</p>
+                <p className="text-xs font-semibold text-rose-600 mt-1">{errors.brand}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-primary-text mb-1.5">
+              <label className="block text-sm font-bold text-slate-700 mb-1.5">
                 Model Number (optional)
               </label>
               <input
@@ -291,15 +291,14 @@ const NewRepairRequest = () => {
                 name="model"
                 value={formData.model}
                 onChange={handleChange}
-                placeholder="e.g. HL7756/00 or leave blank"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
-              >
-              </input>
+                placeholder="e.g. HL7756"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-[#087F75]/20"
+              />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-primary-text mb-1.5">
+            <label className="block text-sm font-bold text-slate-700 mb-1.5">
               Problem Description *
             </label>
             <textarea
@@ -307,32 +306,32 @@ const NewRepairRequest = () => {
               rows={4}
               value={formData.issue}
               onChange={handleChange}
-              placeholder="Describe symptoms, noise, burning smell, won't turn on, sparks, or intermittent power loss..."
-              className={`w-full px-3.5 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 resize-none ${
-                errors.issue ? 'border-danger-text' : 'border-gray-200'
+              placeholder="e.g. Motor spark, blade jam, won't power on, wire cut..."
+              className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-[#087F75]/20 resize-none ${
+                errors.issue ? 'border-rose-500' : 'border-slate-200'
               }`}
             />
             {errors.issue && (
-              <p className="text-xs text-danger-text mt-1">{errors.issue}</p>
+              <p className="text-xs font-semibold text-rose-600 mt-1">{errors.issue}</p>
             )}
           </div>
         </div>
 
         {/* Step 3: Media Uploads (Images & Videos) */}
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-gray-100">
-            <span className="w-7 h-7 rounded-full bg-brand-accent text-brand-primary font-bold text-xs flex items-center justify-center">
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
+            <span className="w-8 h-8 rounded-full bg-teal-100 text-[#087F75] font-bold text-sm flex items-center justify-center">
               3
             </span>
             <div>
-              <h2 className="font-semibold text-primary-text">Photos & Video Evidence (Optional)</h2>
-              <p className="text-xs text-secondary-text">Helps technicians diagnose faults and give accurate cost estimates.</p>
+              <h2 className="font-bold text-base text-slate-900">Photos & Videos (Optional)</h2>
+              <p className="text-sm font-medium text-slate-500">Attach photos or short video clip for rapid inspection.</p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Image upload box */}
-            <div className="border-2 border-dashed border-gray-200 rounded-xl p-5 text-center hover:border-brand-primary transition bg-bg-light/40">
+            <div className="border-2 border-dashed border-slate-200 rounded-xl p-5 text-center hover:border-[#087F75] transition bg-slate-50">
               <input
                 type="file"
                 id="image-upload"
@@ -342,17 +341,17 @@ const NewRepairRequest = () => {
                 className="hidden"
               />
               <label htmlFor="image-upload" className="cursor-pointer flex flex-col items-center">
-                <ImageIcon className="w-8 h-8 text-brand-primary mb-2" />
-                <span className="text-xs font-medium text-primary-text">Upload Appliance Photos</span>
-                <span className="text-[11px] text-secondary-text mt-1">PNG, JPG up to 10MB</span>
-                <span className="mt-3 px-3 py-1 bg-white border border-gray-200 rounded-lg text-xs font-medium text-brand-primary hover:bg-gray-50">
+                <ImageIcon className="w-8 h-8 text-[#087F75] mb-2" />
+                <span className="text-sm font-bold text-slate-800">Upload Photos</span>
+                <span className="text-xs font-semibold text-slate-500 mt-1">PNG, JPG up to 10MB</span>
+                <span className="mt-3 px-4 py-1.5 bg-white border border-slate-200 rounded-lg text-sm font-bold text-[#087F75] hover:bg-slate-100">
                   Select Photos
                 </span>
               </label>
             </div>
 
             {/* Video upload box */}
-            <div className="border-2 border-dashed border-gray-200 rounded-xl p-5 text-center hover:border-brand-primary transition bg-bg-light/40">
+            <div className="border-2 border-dashed border-slate-200 rounded-xl p-5 text-center hover:border-[#087F75] transition bg-slate-50">
               <input
                 type="file"
                 id="video-upload"
@@ -362,10 +361,10 @@ const NewRepairRequest = () => {
                 className="hidden"
               />
               <label htmlFor="video-upload" className="cursor-pointer flex flex-col items-center">
-                <Video className="w-8 h-8 text-brand-primary mb-2" />
-                <span className="text-xs font-medium text-primary-text">Upload Video of Problem</span>
-                <span className="text-[11px] text-secondary-text mt-1">MP4, MOV short demonstration</span>
-                <span className="mt-3 px-3 py-1 bg-white border border-gray-200 rounded-lg text-xs font-medium text-brand-primary hover:bg-gray-50">
+                <Video className="w-8 h-8 text-[#087F75] mb-2" />
+                <span className="text-sm font-bold text-slate-800">Upload Video</span>
+                <span className="text-xs font-semibold text-slate-500 mt-1">MP4, MOV demonstration</span>
+                <span className="mt-3 px-4 py-1.5 bg-white border border-slate-200 rounded-lg text-sm font-bold text-[#087F75] hover:bg-slate-100">
                   Select Video
                 </span>
               </label>
@@ -374,34 +373,34 @@ const NewRepairRequest = () => {
 
           {/* Uploaded media previews */}
           {(images.length > 0 || videos.length > 0) && (
-            <div className="mt-4 pt-4 border-t border-gray-100">
-              <p className="text-xs font-semibold text-secondary-text mb-3">Attached Media ({images.length + videos.length})</p>
+            <div className="mt-4 pt-4 border-t border-slate-100">
+              <p className="text-sm font-bold text-slate-700 mb-3">Attached Media ({images.length + videos.length})</p>
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
                 {images.map((img, idx) => (
-                  <div key={idx} className="relative group rounded-xl overflow-hidden border border-gray-200 aspect-square bg-gray-50">
+                  <div key={idx} className="relative group rounded-xl overflow-hidden border border-slate-200 aspect-square bg-slate-50">
                     <img src={img.dataUrl} alt={img.name} className="w-full h-full object-cover" />
                     <button
                       type="button"
                       onClick={() => removeImage(idx)}
-                      className="absolute top-1 right-1 p-1 bg-black/60 hover:bg-danger-text text-white rounded-full transition"
+                      className="absolute top-1 right-1 p-1 bg-black/60 hover:bg-rose-600 text-white rounded-full transition"
                     >
-                      <X className="w-3 h-3" />
+                      <X className="w-3.5 h-3.5" />
                     </button>
-                    <span className="absolute bottom-1 left-1 right-1 bg-black/60 text-white text-[9px] px-1 py-0.5 rounded truncate">
+                    <span className="absolute bottom-1 left-1 right-1 bg-black/60 text-white text-xs px-1.5 py-0.5 rounded truncate font-medium">
                       {img.name}
                     </span>
                   </div>
                 ))}
                 {videos.map((vid, idx) => (
-                  <div key={idx} className="relative group rounded-xl overflow-hidden border border-gray-200 aspect-square bg-brand-secondary/90 flex flex-col items-center justify-center p-2 text-white text-center">
-                    <Video className="w-6 h-6 mb-1 text-brand-accent" />
-                    <span className="text-[10px] line-clamp-1 w-full px-1">{vid.name}</span>
+                  <div key={idx} className="relative group rounded-xl overflow-hidden border border-slate-200 aspect-square bg-slate-900 flex flex-col items-center justify-center p-2 text-white text-center">
+                    <Video className="w-6 h-6 mb-1 text-teal-300" />
+                    <span className="text-xs line-clamp-1 w-full px-1 font-medium">{vid.name}</span>
                     <button
                       type="button"
                       onClick={() => removeVideo(idx)}
-                      className="absolute top-1 right-1 p-1 bg-black/60 hover:bg-danger-text text-white rounded-full transition"
+                      className="absolute top-1 right-1 p-1 bg-black/60 hover:bg-rose-600 text-white rounded-full transition"
                     >
-                      <X className="w-3 h-3" />
+                      <X className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 ))}
@@ -411,17 +410,17 @@ const NewRepairRequest = () => {
         </div>
 
         {/* Step 4: Pickup & Address */}
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-gray-100">
-            <span className="w-7 h-7 rounded-full bg-brand-accent text-brand-primary font-bold text-xs flex items-center justify-center">
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
+            <span className="w-8 h-8 rounded-full bg-teal-100 text-[#087F75] font-bold text-sm flex items-center justify-center">
               4
             </span>
-            <h2 className="font-semibold text-primary-text">Pickup Address & Date</h2>
+            <h2 className="font-bold text-base text-slate-900">Pickup Details</h2>
           </div>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-primary-text mb-1.5">
+              <label className="block text-sm font-bold text-slate-700 mb-1.5">
                 Complete Street Address *
               </label>
               <input
@@ -429,19 +428,19 @@ const NewRepairRequest = () => {
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
-                placeholder="Flat / House No, Building, Street, Landmark"
-                className={`w-full px-3.5 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 ${
-                  errors.address ? 'border-danger-text' : 'border-gray-200'
+                placeholder="House / Flat No, Street, Landmark"
+                className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-[#087F75]/20 ${
+                  errors.address ? 'border-rose-500' : 'border-slate-200'
                 }`}
               />
               {errors.address && (
-                <p className="text-xs text-danger-text mt-1">{errors.address}</p>
+                <p className="text-xs font-semibold text-rose-600 mt-1">{errors.address}</p>
               )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-medium text-primary-text mb-1.5">
+                <label className="block text-sm font-bold text-slate-700 mb-1.5">
                   City *
                 </label>
                 <input
@@ -449,17 +448,17 @@ const NewRepairRequest = () => {
                   name="city"
                   value={formData.city}
                   onChange={handleChange}
-                  className={`w-full px-3.5 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 ${
-                    errors.city ? 'border-danger-text' : 'border-gray-200'
+                  className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-[#087F75]/20 ${
+                    errors.city ? 'border-rose-500' : 'border-slate-200'
                   }`}
                 />
                 {errors.city && (
-                  <p className="text-xs text-danger-text mt-1">{errors.city}</p>
+                  <p className="text-xs font-semibold text-rose-600 mt-1">{errors.city}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-primary-text mb-1.5">
+                <label className="block text-sm font-bold text-slate-700 mb-1.5">
                   Pincode *
                 </label>
                 <input
@@ -469,17 +468,17 @@ const NewRepairRequest = () => {
                   onChange={handleChange}
                   maxLength={6}
                   placeholder="560001"
-                  className={`w-full px-3.5 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 ${
-                    errors.pincode ? 'border-danger-text' : 'border-gray-200'
+                  className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-[#087F75]/20 ${
+                    errors.pincode ? 'border-rose-500' : 'border-slate-200'
                   }`}
                 />
                 {errors.pincode && (
-                  <p className="text-xs text-danger-text mt-1">{errors.pincode}</p>
+                  <p className="text-xs font-semibold text-rose-600 mt-1">{errors.pincode}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-primary-text mb-1.5">
+                <label className="block text-sm font-bold text-slate-700 mb-1.5">
                   Preferred Pickup Date *
                 </label>
                 <input
@@ -488,12 +487,12 @@ const NewRepairRequest = () => {
                   value={formData.pickupDate}
                   min={new Date().toISOString().split('T')[0]}
                   onChange={handleChange}
-                  className={`w-full px-3.5 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 ${
-                    errors.pickupDate ? 'border-danger-text' : 'border-gray-200'
+                  className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-[#087F75]/20 ${
+                    errors.pickupDate ? 'border-rose-500' : 'border-slate-200'
                   }`}
                 />
                 {errors.pickupDate && (
-                  <p className="text-xs text-danger-text mt-1">{errors.pickupDate}</p>
+                  <p className="text-xs font-semibold text-rose-600 mt-1">{errors.pickupDate}</p>
                 )}
               </div>
             </div>
@@ -505,22 +504,22 @@ const NewRepairRequest = () => {
           <button
             type="button"
             onClick={() => navigate('/customer/overview')}
-            className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-secondary-text hover:bg-gray-50 transition"
+            className="px-6 py-3 rounded-xl border border-slate-200 text-sm font-bold text-slate-700 hover:bg-slate-100 transition"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-7 py-2.5 rounded-xl bg-brand-primary hover:bg-opacity-90 text-white font-medium text-sm transition shadow-sm flex items-center gap-2 disabled:opacity-50"
+            className="px-8 py-3 rounded-xl bg-[#087F75] hover:bg-[#06635B] text-white font-bold text-sm transition shadow-md shadow-[#087F75]/30 flex items-center gap-2 disabled:opacity-50 cursor-pointer"
           >
             {isSubmitting ? (
               <>
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Registering Complaint...
+                Booking...
               </>
             ) : (
-              'Confirm & Book Repair'
+              'Confirm & Book'
             )}
           </button>
         </div>
@@ -533,23 +532,23 @@ const NewRepairRequest = () => {
           setSuccessModalOpen(false);
           navigate('/customer/my-repairs');
         }}
-        title="Repair Request Submitted!"
+        title="Repair Booked Successfully!"
       >
         <div className="space-y-4 text-center py-2">
-          <div className="w-14 h-14 bg-emerald-50 rounded-full flex items-center justify-center mx-auto text-success-text">
+          <div className="w-14 h-14 bg-emerald-50 rounded-full flex items-center justify-center mx-auto text-emerald-600 border border-emerald-200">
             <CheckCircle className="w-8 h-8" />
           </div>
           <div>
-            <p className="text-sm text-secondary-text">
-              Your appliance repair request has been successfully registered and sent to the shop owner.
+            <p className="text-base font-semibold text-slate-700">
+              Your repair request has been sent to the workshop.
             </p>
-            <div className="mt-3 p-3 bg-brand-accent/50 rounded-xl inline-block">
-              <span className="text-xs text-secondary-text">Your Tracking ID:</span>
-              <p className="text-lg font-bold text-brand-primary">{createdRepairId}</p>
+            <div className="mt-3 p-3.5 bg-teal-50 border border-teal-200 rounded-xl inline-block">
+              <span className="text-xs font-bold text-slate-600 uppercase tracking-wider block">Tracking ID</span>
+              <p className="text-xl font-black text-[#087F75]">{createdRepairId}</p>
             </div>
           </div>
-          <p className="text-xs text-secondary-text">
-            A courier will be dispatched for pickup once the shop owner reviews and approves the request.
+          <p className="text-sm font-medium text-slate-500">
+            A courier will be assigned once the shop owner reviews your request.
           </p>
           <div className="pt-2 flex gap-3 justify-center">
             <button
@@ -557,7 +556,7 @@ const NewRepairRequest = () => {
                 setSuccessModalOpen(false);
                 navigate('/customer/my-repairs');
               }}
-              className="px-5 py-2.5 bg-brand-primary text-white text-xs font-semibold rounded-xl hover:bg-opacity-90 transition"
+              className="px-6 py-3 bg-[#087F75] text-white text-sm font-bold rounded-xl hover:bg-[#06635B] transition shadow-md shadow-[#087F75]/20 cursor-pointer"
             >
               Go to My Repairs
             </button>

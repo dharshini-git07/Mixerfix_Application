@@ -56,45 +56,45 @@ const MyRepairs = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-primary-text font-heading">
-            My Repair Requests
+          <h1 className="text-3xl font-black text-slate-900 font-heading">
+            My Repairs
           </h1>
-          <p className="text-secondary-text text-sm mt-1">
-            Track real-time progress, technician notes, and payment status for all your appliances.
+          <p className="text-slate-600 text-base font-medium mt-1">
+            Real-time progress, technician notes & payment status.
           </p>
         </div>
         <Link
           to="/customer/new-repair"
-          className="inline-flex items-center justify-center px-4 py-2.5 bg-brand-primary text-white text-sm font-medium rounded-xl hover:bg-opacity-90 transition shadow-sm whitespace-nowrap"
+          className="inline-flex items-center justify-center px-6 py-3 bg-[#087F75] text-white text-sm font-bold rounded-xl hover:bg-[#06635B] transition shadow-md shadow-[#087F75]/20 whitespace-nowrap"
         >
-          + New Repair
+          + Book Repair
         </Link>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row gap-3 items-center justify-between">
+      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-3 items-center justify-between">
         <div className="relative w-full md:w-96">
-          <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search by ID, brand or appliance..."
+            placeholder="Search by ID, appliance or brand..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 text-sm rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
+            className="w-full pl-10 pr-4 py-2.5 text-sm font-semibold rounded-xl border border-slate-200 focus:outline-hidden focus:ring-2 focus:ring-[#087F75]/20"
           />
         </div>
 
         <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
-          <Filter className="w-4 h-4 text-secondary-text shrink-0" />
-          <span className="text-xs font-medium text-secondary-text shrink-0">Filter:</span>
+          <Filter className="w-4 h-4 text-slate-600 shrink-0" />
+          <span className="text-sm font-bold text-slate-700 shrink-0">Filter:</span>
           {['ALL', 'ACTIVE', 'COMPLETED'].map((filter) => (
             <button
               key={filter}
               onClick={() => setStatusFilter(filter)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition shrink-0 ${
+              className={`px-4 py-2 rounded-xl text-sm font-bold transition shrink-0 ${
                 statusFilter === filter
-                  ? 'bg-brand-primary text-white'
-                  : 'bg-bg-light text-secondary-text hover:bg-gray-100'
+                  ? 'bg-[#087F75] text-white shadow-xs'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
               {filter === 'ALL' ? 'All Repairs' : filter === 'ACTIVE' ? 'In Progress' : 'Delivered'}
@@ -112,7 +112,7 @@ const MyRepairs = () => {
               ? 'Try adjusting your search criteria or filters.'
               : 'You have not booked any appliance repairs yet.'
           }
-          actionLabel="Book a Repair"
+          actionText="Book a Repair"
           onAction={() => (window.location.href = '/customer/new-repair')}
         />
       ) : (
@@ -120,20 +120,20 @@ const MyRepairs = () => {
           {filteredRepairs.map((repair) => (
             <div
               key={repair.id}
-              className="bg-white rounded-2xl p-5 md:p-6 border border-gray-100 shadow-sm hover:border-brand-primary/30 transition space-y-4"
+              className="bg-white rounded-2xl p-5 md:p-6 border border-slate-200 shadow-sm hover:border-[#087F75]/40 transition space-y-4"
             >
               {/* Card Top: ID, Brand, Date, Badge */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-gray-100">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
                 <div className="flex items-center gap-3">
-                  <span className="text-xs font-bold text-brand-primary bg-brand-accent px-2.5 py-1 rounded-md">
+                  <span className="text-sm font-bold text-[#087F75] bg-teal-50 border border-teal-200 px-3 py-1 rounded-md">
                     {repair.id}
                   </span>
                   <div>
-                    <h3 className="font-bold text-primary-text text-base">
+                    <h3 className="font-extrabold text-slate-900 text-lg">
                       {repair.brand} {repair.appliance}
                     </h3>
-                    <p className="text-xs text-secondary-text">
-                      Requested on {repair.createdAt} • Pickup: {repair.pickupDate}
+                    <p className="text-sm font-semibold text-slate-600">
+                      Booked: {repair.createdAt} • Pickup: {repair.pickupDate}
                     </p>
                   </div>
                 </div>
@@ -141,17 +141,17 @@ const MyRepairs = () => {
                   <StatusBadge status={repair.status} />
                   <button
                     onClick={() => setSelectedRepair(repair)}
-                    className="p-2 text-secondary-text hover:text-brand-primary hover:bg-bg-light rounded-lg transition"
+                    className="p-2 text-slate-600 hover:text-[#087F75] hover:bg-slate-100 rounded-lg transition"
                     title="View Details"
                   >
-                    <Eye className="w-4 h-4" />
+                    <Eye className="w-5 h-5" />
                   </button>
                 </div>
               </div>
 
               {/* Problem Description */}
-              <div className="bg-bg-light/60 p-3 rounded-xl text-xs text-secondary-text">
-                <span className="font-semibold text-primary-text">Reported Issue: </span>
+              <div className="bg-slate-50 p-3.5 rounded-xl text-sm font-medium text-slate-700 border border-slate-100">
+                <span className="font-bold text-slate-900">Issue: </span>
                 {repair.issue}
               </div>
 
@@ -161,23 +161,23 @@ const MyRepairs = () => {
               </div>
 
               {/* Bottom Details & Actions */}
-              <div className="pt-3 border-t border-gray-100 flex flex-wrap items-center justify-between gap-4 text-xs">
+              <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4 text-sm font-semibold">
                 <div className="flex items-center gap-5">
                   <div>
-                    <span className="text-secondary-text">Estimated Cost: </span>
-                    <span className="font-semibold text-primary-text">
+                    <span className="text-slate-500">Estimate: </span>
+                    <span className="font-extrabold text-[#087F75]">
                       {repair.cost ? `₹${repair.cost}` : 'Pending Inspection'}
                     </span>
                   </div>
                   <div>
-                    <span className="text-secondary-text">Payment: </span>
+                    <span className="text-slate-500">Payment: </span>
                     <span
-                      className={`font-semibold ${
+                      className={`font-extrabold ${
                         repair.paymentStatus === 'Paid'
-                          ? 'text-success-text'
+                          ? 'text-emerald-700'
                           : repair.cost
-                          ? 'text-warning-text'
-                          : 'text-secondary-text'
+                          ? 'text-amber-700'
+                          : 'text-slate-600'
                       }`}
                     >
                       {repair.paymentStatus || 'Pending'}
@@ -185,35 +185,35 @@ const MyRepairs = () => {
                   </div>
                   {repair.assignedCourier && (
                     <div className="hidden sm:inline">
-                      <span className="text-secondary-text">Courier: </span>
-                      <span className="font-medium text-brand-secondary">{repair.assignedCourier}</span>
+                      <span className="text-slate-500">Courier: </span>
+                      <span className="font-bold text-slate-800">{repair.assignedCourier}</span>
                     </div>
                   )}
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2.5">
                   {/* Chat button */}
                   <Link
                     to="/customer/chat"
-                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-200 text-secondary-text hover:text-brand-primary hover:border-brand-primary text-xs font-medium transition"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 text-slate-700 hover:text-[#087F75] hover:border-[#087F75] text-sm font-bold transition"
                   >
-                    <MessageSquare className="w-3.5 h-3.5" /> Chat
+                    <MessageSquare className="w-4 h-4" /> Chat
                   </Link>
 
-                  {/* Pay button (enabled if cost is set and not paid) */}
+                  {/* Pay button */}
                   {repair.cost && repair.paymentStatus !== 'Paid' && (
                     <Link
                       to={`/customer/payments?repairId=${repair.id}`}
-                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium transition shadow-sm"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold transition shadow-sm"
                     >
-                      <CreditCard className="w-3.5 h-3.5" /> Pay ₹{repair.cost}
+                      <CreditCard className="w-4 h-4" /> Pay ₹{repair.cost}
                     </Link>
                   )}
 
                   {/* Details modal trigger */}
                   <button
                     onClick={() => setSelectedRepair(repair)}
-                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-brand-primary text-white text-xs font-medium hover:bg-opacity-90 transition"
+                    className="inline-flex items-center gap-1 px-4 py-2 rounded-xl bg-[#087F75] text-white text-sm font-bold hover:bg-[#06635B] transition shadow-xs cursor-pointer"
                   >
                     Details
                   </button>

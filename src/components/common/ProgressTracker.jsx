@@ -84,19 +84,19 @@ export default function ProgressTracker({ currentStatus, repairDetails = {} }) {
                   )}
                 </div>
 
-                <div className="mt-2 text-center max-w-[85px]">
+                <div className="mt-2 text-center max-w-[90px]">
                   <span
-                    className={`block text-[11px] leading-tight font-medium ${
+                    className={`block text-xs leading-tight font-bold ${
                       isCurrent
-                        ? 'text-[#087F75] font-bold'
+                        ? 'text-[#087F75]'
                         : isCompleted
                         ? 'text-slate-800'
-                        : 'text-slate-400'
+                        : 'text-slate-500'
                     }`}
                   >
                     {stage.label}
                   </span>
-                  <span className="block text-[9px] text-slate-400 mt-0.5">
+                  <span className="block text-xs font-semibold text-slate-500 mt-0.5">
                     Step {stage.step}
                   </span>
                 </div>
@@ -108,12 +108,12 @@ export default function ProgressTracker({ currentStatus, repairDetails = {} }) {
 
       {/* Tablet & Mobile Vertical/Compact Stepper */}
       <div className="lg:hidden">
-        <div className="bg-slate-50/70 p-3.5 rounded-xl border border-slate-200/80 mb-3">
-          <div className="flex items-center justify-between text-xs font-medium text-slate-500 mb-1.5">
-            <span>Progress: Stage {activeStep + 1} of 9</span>
-            <span className="text-[#087F75] font-semibold">{Math.round(((activeStep + 1) / 9) * 100)}% Complete</span>
+        <div className="bg-slate-50/90 p-3.5 rounded-xl border border-slate-200 mb-3">
+          <div className="flex items-center justify-between text-sm font-semibold text-slate-700 mb-1.5">
+            <span>Stage {activeStep + 1} of 9</span>
+            <span className="text-[#087F75] font-bold">{Math.round(((activeStep + 1) / 9) * 100)}% Complete</span>
           </div>
-          <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+          <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
             <div
               className="bg-[#087F75] h-full rounded-full transition-all duration-500"
               style={{ width: `${((activeStep + 1) / 9) * 100}%` }}
@@ -131,7 +131,7 @@ export default function ProgressTracker({ currentStatus, repairDetails = {} }) {
             return (
               <div key={stage.id} className="relative flex items-center space-x-3 text-left">
                 <div
-                  className={`w-7 h-7 rounded-full flex items-center justify-center border text-xs z-10 transition-all ${
+                  className={`w-8 h-8 rounded-full flex items-center justify-center border text-xs z-10 transition-all ${
                     isCompleted
                       ? 'bg-[#087F75] border-[#087F75] text-white'
                       : isCurrent
@@ -142,30 +142,30 @@ export default function ProgressTracker({ currentStatus, repairDetails = {} }) {
                   {isCompleted ? (
                     <CheckCircle2 className="w-4 h-4 text-white" />
                   ) : (
-                    <IconComp className="w-3.5 h-3.5" />
+                    <IconComp className="w-4 h-4" />
                   )}
                 </div>
 
                 <div className="flex-1 min-w-0 py-0.5">
                   <div className="flex items-center justify-between">
                     <p
-                      className={`text-xs font-semibold ${
+                      className={`text-sm font-bold ${
                         isCurrent
                           ? 'text-[#087F75]'
                           : isCompleted
-                          ? 'text-slate-800'
-                          : 'text-slate-400'
+                          ? 'text-slate-900'
+                          : 'text-slate-500'
                       }`}
                     >
                       {stage.label}
                     </p>
                     {isCurrent && (
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#087F75] bg-[#DDF4EF] px-1.5 py-0.5 rounded">
+                      <span className="text-xs font-bold uppercase tracking-wider text-[#087F75] bg-[#DDF4EF] px-2 py-0.5 rounded-md">
                         Active
                       </span>
                     )}
                   </div>
-                  <p className="text-[11px] text-slate-500 truncate">{stage.description}</p>
+                  <p className="text-xs font-medium text-slate-600 truncate">{stage.description}</p>
                 </div>
               </div>
             );
