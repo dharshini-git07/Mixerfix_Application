@@ -8,13 +8,13 @@ const DeliveryProfile = () => {
   const { showToast } = useRepairs();
 
   const [formData, setFormData] = useState({
-    name: currentUser?.name || 'Vikas Verma',
+    name: currentUser?.name || 'Delivery Partner',
     email: currentUser?.email || 'delivery@mixerfix.com',
-    phone: currentUser?.phone || '+91 97654 32109',
-    vehicleType: 'Electric Cargo Scooter (EV)',
-    vehicleNumber: 'KA-01-EV-4492',
-    coverageZone: 'Bangalore South (Koramangala, HSR, Indiranagar, Bellandur)',
-    dutyStatus: 'Active on Duty',
+    phone: currentUser?.phone || '+91 91234 56780',
+    vehicleType: currentUser?.vehicle || currentUser?.vehicleType || 'Electric Cargo Scooter (EV)',
+    vehicleNumber: currentUser?.vehicleNumber || 'KA-01-EV-4492',
+    coverageZone: currentUser?.zone || currentUser?.coverageZone || 'Central & East Bengaluru',
+    dutyStatus: currentUser?.dutyStatus || 'Active on Duty',
   });
 
   const handleChange = (e) => {

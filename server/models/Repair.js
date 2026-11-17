@@ -140,6 +140,18 @@ const repairSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    razorpayOrderId: {
+      type: String,
+      default: null,
+    },
+    razorpayPaymentId: {
+      type: String,
+      default: null,
+    },
+    paidAt: {
+      type: Date,
+      default: null,
+    },
     approvedAt: { type: Date },
     pickupAssignedAt: { type: Date },
     collectedAt: { type: Date },

@@ -126,54 +126,100 @@ export const AuthProvider = ({ children }) => {
 
   // Register new user (Attempts backend API, falls back to local)
   const register = async (userData) => {
+    const role = (userData.role || 'customer').toLowerCase();
+    const fullName = (userData.fullName || userData.name || '').trim();
+    const email = (userData.email || '').trim().toLowerCase();
+    const phone = (userData.phone || '').trim();
+
     try {
       const res = await authAPI.register({
-        name: userData.fullName,
-        email: userData.email,
-        phone: userData.phone,
+        name: fullName,
+        email,
+        phone,
         password: userData.password,
-        role: userData.role,
-        address: userData.address,
-        city: userData.city,
-        pincode: userData.pincode,
-        shopName: userData.shopName,
-        vehicle: userData.vehicle,
-        zone: userData.zone,
+        role,
+        address: userData.address || '',
+        city: userData.city || 'Bangalore',
+        pincode: userData.pincode || '560038',
+        shopName: role === 'owner' ? (userData.shopName || `${fullName}'s Workshop`) : undefined,
+        vehicle: role === 'delivery' ? (userData.vehicle || 'Electric Two-Wheeler (EV)') : undefined,
+        vehicleNumber: role === 'delivery' ? (userData.vehicleNumber || 'KA-04-DL-9821') : undefined,
+        zone: role === 'delivery' ? (userData.zone || 'Central & East Bengaluru') : undefined,
+        dutyStatus: role === 'delivery' ? 'Active on Duty' : undefined,
       });
 
       if (res.success && res.token) {
         setToken(res.token);
         setCurrentUser(res.user);
         setIsBackendOnline(true);
+
+        // Keep local user store in sync
+        setUsers((prev) => {
+          const filtered = prev.filter((u) => u.email.toLowerCase() !== email);
+          return [...filtered, { ...res.user, password: userData.password }];
+        });
+
+        // Notify app components (e.g. RepairContext for delivery roster)
+        window.dispatchEvent(new CustomEvent('mixerfix:user_registered', { detail: res.user }));
+
         return { success: true, user: res.user };
       }
     } catch (apiError) {
-      // Fall through to local fallback
+      // If server responded with a 400 error (e.g. duplicate email), surface it
+      const isOffline =
+        apiError.message?.includes('Network Error') ||
+        apiError.message?.includes('ECONNREFUSED') ||
+        apiError.message?.includes('Failed to fetch') ||
+        !apiError.response;
+
+      if (!isOffline && apiError.response?.data?.message) {
+        return { success: false, error: apiError.response.data.message };
+      }
     }
 
-    const existing = users.find((u) => u.email.toLowerCase() === userData.email.trim().toLowerCase());
+    // Local / Offline Registration Fallback
+    const existing = users.find((u) => (u.email || '').toLowerCase() === email);
     if (existing) {
-      return { success: false, error: 'An account with this email address already exists.' };
+      return { success: false, error: 'An account with this email address already exists. Please sign in instead.' };
     }
 
     const newUser = {
       id: `user-${Date.now()}`,
-      name: userData.fullName,
-      email: userData.email,
-      phone: userData.phone,
-      role: userData.role,
+      name: fullName,
+      email,
+      phone,
+      role,
       password: userData.password,
-      avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(userData.fullName)}&backgroundColor=087F75`,
-      address: userData.address || 'MG Road',
+      avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(fullName)}&backgroundColor=087F75`,
+      address: userData.address || 'Flat 402, Green Glen Layout, Indiranagar',
       city: userData.city || 'Bangalore',
-      pincode: userData.pincode || '560001',
-      ...(userData.role === 'owner' ? { shopName: userData.shopName || `${userData.fullName}'s Workshop` } : {}),
-      ...(userData.role === 'delivery' ? { vehicle: userData.vehicle || 'Electric Two-Wheeler', zone: userData.zone || 'Central Zone' } : {}),
+      pincode: userData.pincode || '560038',
+      ...(role === 'owner'
+        ? {
+            shopName: userData.shopName || `${fullName}'s Electronics Workshop`,
+            gstin: userData.gstin || '29ABCDE1234F1Z5',
+            operatingHours: '09:00 AM – 08:30 PM (Mon-Sat)',
+          }
+        : {}),
+      ...(role === 'delivery'
+        ? {
+            vehicle: userData.vehicle || 'Electric Two-Wheeler (EV)',
+            vehicleNumber: userData.vehicleNumber || 'KA-04-DL-9821',
+            zone: userData.zone || 'Central & East Bengaluru',
+            dutyStatus: 'Active on Duty',
+            activeDeliveriesCount: 0,
+            completedCount: 0,
+          }
+        : {}),
     };
 
     const updatedUsers = [...users, newUser];
     setUsers(updatedUsers);
     setCurrentUser(newUser);
+
+    // Notify app components
+    window.dispatchEvent(new CustomEvent('mixerfix:user_registered', { detail: newUser }));
+
     return { success: true, user: newUser };
   };
 

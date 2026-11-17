@@ -22,9 +22,9 @@ const OwnerPayments = () => {
 
   const filteredPayments = payments.filter(
     (p) =>
-      p.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.repairId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.method.toLowerCase().includes(searchTerm.toLowerCase())
+      (p.id || p.paymentId || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (p.repairId || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (p.method || p.paymentMethod || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -104,9 +104,9 @@ const OwnerPayments = () => {
             </thead>
             <tbody className="divide-y divide-gray-100">
               {filteredPayments.map((p) => (
-                <tr key={p.id} className="hover:bg-gray-50/60 transition text-xs">
+                <tr key={p.id || p.paymentId} className="hover:bg-gray-50/60 transition text-xs">
                   <td className="px-5 py-3.5 font-bold text-brand-primary">
-                    {p.id}
+                    {p.id || p.paymentId}
                   </td>
                   <td className="px-5 py-3.5 font-medium text-primary-text">
                     {p.repairId}
@@ -114,15 +114,17 @@ const OwnerPayments = () => {
                   <td className="px-5 py-3.5 font-bold text-emerald-700 text-sm">
                     ₹{p.amount}
                   </td>
-                  <td className="px-5 py-3.5 text-secondary-text">
-                    {p.method}
+                  <td className="px-5 py-3.5 text-secondary-text font-medium">
+                    <span className="inline-flex items-center gap-1">
+                      {p.method || p.paymentMethod || 'Razorpay Standard'}
+                    </span>
                   </td>
                   <td className="px-5 py-3.5 text-secondary-text">
-                    {p.date}
+                    {p.date || p.paymentDate?.toString().slice(0, 10)}
                   </td>
                   <td className="px-5 py-3.5">
-                    <span className="px-2.5 py-1 bg-emerald-50 text-emerald-700 font-semibold rounded-md">
-                      {p.status}
+                    <span className="px-2.5 py-1 bg-emerald-50 text-emerald-700 font-semibold rounded-md border border-emerald-200">
+                      {p.status || p.paymentStatus || 'Paid'}
                     </span>
                   </td>
                 </tr>

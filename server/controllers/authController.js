@@ -17,10 +17,33 @@ const generateToken = (id) => {
 // @access  Public
 export const registerUser = async (req, res, next) => {
   try {
-    const { name, email, phone, password, role, address, city, pincode, shopName, vehicle, zone } = req.body;
+    const {
+      name,
+      fullName,
+      email,
+      phone,
+      password,
+      role,
+      address,
+      city,
+      pincode,
+      shopName,
+      vehicle,
+      vehicleNumber,
+      zone,
+      dutyStatus,
+    } = req.body;
+
+    const resolvedName = (name || fullName || '').trim();
+    if (!resolvedName || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide full name, email, and password.',
+      });
+    }
 
     // Check if user already exists
-    const userExists = await User.findOne({ email: email.toLowerCase() });
+    const userExists = await User.findOne({ email: email.toLowerCase().trim() });
     if (userExists) {
       return res.status(400).json({
         success: false,
@@ -28,19 +51,23 @@ export const registerUser = async (req, res, next) => {
       });
     }
 
+    const resolvedRole = (role || 'customer').toLowerCase();
+
     // Create user
     const user = await User.create({
-      name,
-      email: email.toLowerCase(),
-      phone,
+      name: resolvedName,
+      email: email.toLowerCase().trim(),
+      phone: phone || '',
       password,
-      role: role || 'customer',
-      address,
-      city,
-      pincode,
-      shopName,
-      vehicle,
-      zone,
+      role: resolvedRole,
+      address: address || '',
+      city: city || 'Bangalore',
+      pincode: pincode || '560038',
+      shopName: resolvedRole === 'owner' ? (shopName || `${resolvedName}'s Workshop`) : undefined,
+      vehicle: resolvedRole === 'delivery' ? (vehicle || 'Two-Wheeler Delivery Vehicle') : undefined,
+      vehicleNumber: resolvedRole === 'delivery' ? (vehicleNumber || 'KA-01-DEL-2026') : undefined,
+      zone: resolvedRole === 'delivery' ? (zone || 'Central Bengaluru') : undefined,
+      dutyStatus: resolvedRole === 'delivery' ? (dutyStatus || 'Active on Duty') : undefined,
     });
 
     const token = generateToken(user._id);

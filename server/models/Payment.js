@@ -27,27 +27,62 @@ const paymentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    customerEmail: {
+      type: String,
+      default: '',
+    },
     amount: {
       type: Number,
       required: true,
     },
+    currency: {
+      type: String,
+      default: 'INR',
+    },
     paymentMethod: {
       type: String,
-      enum: ['UPI', 'Debit/Credit Card', 'Cash on Delivery', 'Card'],
-      required: true,
+      default: 'Razorpay',
     },
     paymentStatus: {
       type: String,
-      enum: ['Paid', 'Pending', 'Failed'],
-      default: 'Paid',
+      enum: ['Paid', 'Pending', 'Failed', 'Authorized', 'Captured', 'Created', 'Refunded'],
+      default: 'Pending',
+      index: true,
     },
     transactionReference: {
       type: String,
-      required: true,
+      default: '',
+    },
+    // Razorpay Integration Attributes
+    razorpayOrderId: {
+      type: String,
+      default: null,
+      index: true,
+    },
+    razorpayPaymentId: {
+      type: String,
+      default: null,
+      index: true,
+    },
+    razorpaySignature: {
+      type: String,
+      default: null,
+    },
+    signatureVerified: {
+      type: Boolean,
+      default: false,
+    },
+    receiptNumber: {
+      type: String,
+      default: null,
     },
     paymentDate: {
       type: Date,
       default: Date.now,
+    },
+    failureReason: {
+      type: String,
+      default: null,
     },
     details: {
       type: mongoose.Schema.Types.Mixed,
@@ -61,7 +96,7 @@ const paymentSchema = new mongoose.Schema(
   }
 );
 
-// Virtual alias 'id' and 'method' for frontend consistency
+// Virtual aliases for frontend compatibility
 paymentSchema.virtual('id').get(function () {
   return this.paymentId;
 });

@@ -337,7 +337,7 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <div className="pt-6">
+              <div className="pt-6 flex flex-col gap-2">
                 <button
                   onClick={() => {
                     switchDemoRole('customer');
@@ -348,6 +348,12 @@ export default function LandingPage() {
                   <span>Open Customer Portal</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
+                <Link
+                  to="/register?role=customer"
+                  className="w-full py-2 bg-teal-50 hover:bg-teal-100 text-[#087F75] font-semibold text-xs rounded-xl text-center border border-teal-200/60 transition"
+                >
+                  + New Customer Registration
+                </Link>
               </div>
             </div>
 
@@ -386,7 +392,7 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <div className="pt-6">
+              <div className="pt-6 flex flex-col gap-2">
                 <button
                   onClick={() => {
                     switchDemoRole('owner');
@@ -397,6 +403,12 @@ export default function LandingPage() {
                   <span>Open Shop Owner Hub</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
+                <Link
+                  to="/register?role=owner"
+                  className="w-full py-2 bg-sky-50 hover:bg-sky-100 text-sky-800 font-semibold text-xs rounded-xl text-center border border-sky-200/60 transition"
+                >
+                  + Register New Workshop
+                </Link>
               </div>
             </div>
 
@@ -435,7 +447,7 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <div className="pt-6">
+              <div className="pt-6 flex flex-col gap-2">
                 <button
                   onClick={() => {
                     switchDemoRole('delivery');
@@ -446,6 +458,12 @@ export default function LandingPage() {
                   <span>Open Delivery Fleet App</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
+                <Link
+                  to="/register?role=delivery"
+                  className="w-full py-2 bg-amber-50 hover:bg-amber-100 text-amber-800 font-semibold text-xs rounded-xl text-center border border-amber-200/60 transition"
+                >
+                  + Join as Delivery Agent
+                </Link>
               </div>
             </div>
           </div>

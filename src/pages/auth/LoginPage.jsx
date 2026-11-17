@@ -121,8 +121,8 @@ export default function LoginPage() {
         <h2 className="mt-4 text-2xl font-extrabold text-[#142D3A]">Sign in to your account</h2>
         <p className="mt-1 text-xs text-slate-500">
           Or{' '}
-          <Link to="/register" className="font-semibold text-[#087F75] hover:underline">
-            create a new account
+          <Link to={`/register?role=${role}`} className="font-semibold text-[#087F75] hover:underline">
+            create a new {role === 'delivery' ? 'delivery agent' : role === 'owner' ? 'workshop' : 'customer'} account
           </Link>
         </p>
       </div>
@@ -311,6 +311,34 @@ export default function LoginPage() {
                 </span>
               </button>
             </div>
+          </div>
+
+          {/* Quick Registration CTA */}
+          <div className="mt-5 pt-4 border-t border-slate-100 text-center">
+            <p className="text-xs text-slate-500">
+              {role === 'delivery' ? (
+                <>
+                  Want to join our delivery fleet?{' '}
+                  <Link to="/register?role=delivery" className="font-bold text-[#087F75] hover:underline">
+                    Register as Delivery Agent →
+                  </Link>
+                </>
+              ) : role === 'owner' ? (
+                <>
+                  Are you an electronics workshop owner?{' '}
+                  <Link to="/register?role=owner" className="font-bold text-[#087F75] hover:underline">
+                    Register Workshop →
+                  </Link>
+                </>
+              ) : (
+                <>
+                  New to Mixer Fix?{' '}
+                  <Link to="/register?role=customer" className="font-bold text-[#087F75] hover:underline">
+                    Create Customer Account →
+                  </Link>
+                </>
+              )}
+            </p>
           </div>
         </div>
       </div>

@@ -8,12 +8,12 @@ const CustomerProfile = () => {
   const { showToast } = useRepairs();
 
   const [formData, setFormData] = useState({
-    name: currentUser?.name || 'Rahul Sharma',
+    name: currentUser?.name || 'Customer Account',
     email: currentUser?.email || 'customer@mixerfix.com',
     phone: currentUser?.phone || '+91 98765 43210',
-    address: currentUser?.address || 'Flat 402, Green Glen Layout, Bellandur',
-    city: 'Bangalore',
-    pincode: '560103',
+    address: currentUser?.address || 'Flat 402, Green Glen Layout, Indiranagar',
+    city: currentUser?.city || 'Bangalore',
+    pincode: currentUser?.pincode || '560038',
   });
 
   const [notifications, setNotifications] = useState({

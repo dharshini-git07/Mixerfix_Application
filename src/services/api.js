@@ -1,6 +1,13 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Support VITE_API_BASE_URL (standard production) and VITE_API_URL (fallback)
+const configuredUrl =
+  import.meta.env.VITE_API_BASE_URL ||
+  import.meta.env.VITE_API_URL ||
+  'http://localhost:5000/api';
+
+const cleanBaseUrl = configuredUrl.replace(/\/+$/, '');
+export const API_BASE_URL = cleanBaseUrl.endsWith('/api') ? cleanBaseUrl : `${cleanBaseUrl}/api`;
 
 // Create configured Axios instance
 const api = axios.create({
@@ -8,7 +15,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 8000,
+  timeout: 10000,
 });
 
 // Interceptor: Attach JWT bearer token to outbound requests
@@ -87,6 +94,10 @@ export const chatAPI = {
 // Payment APIs
 // ==========================================
 export const paymentsAPI = {
+  createRazorpayOrder: (payload) => api.post('/payments/create-order', payload),
+  verifyRazorpayPayment: (payload) => api.post('/payments/verify', payload),
+  getMyPayments: () => api.get('/payments/my-payments'),
+  getPaymentById: (paymentId) => api.get(`/payments/${paymentId}`),
   createPayment: (payload) => api.post('/payments', payload),
   getPayments: (params) => api.get('/payments', { params }),
 };
