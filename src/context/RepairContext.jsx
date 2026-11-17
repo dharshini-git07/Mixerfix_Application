@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { INITIAL_REPAIRS, INITIAL_MESSAGES, INITIAL_PAYMENTS, INITIAL_USERS } from '../data/mockData';
+import { repairsAPI, chatAPI, paymentsAPI, deliveriesAPI, usersAPI } from '../services/api';
+import { getSocket } from '../services/socket';
 
 const RepairContext = createContext();
 
@@ -9,16 +11,18 @@ const normalizeRepair = (r) => {
   const category = r.category || r.appliance || 'Appliance';
   const issue = r.issue || r.problem || 'Repair needed';
   const problem = r.problem || r.issue || 'Repair needed';
-  const cost = r.cost !== undefined ? r.cost : (r.actualCost || r.estimatedCost || null);
+  const cost = r.cost !== undefined && r.cost !== null ? r.cost : (r.actualCost || r.estimatedCost || null);
   const estimatedCost = r.estimatedCost || cost;
   const actualCost = r.actualCost || cost;
   const address = r.address || r.pickupAddress || 'Address';
   const pickupAddress = r.pickupAddress || r.address || 'Address';
-  const assignedCourier = r.assignedCourier || r.assignedDeliveryName || null;
-  const assignedDeliveryName = r.assignedDeliveryName || r.assignedCourier || null;
+  const assignedCourier = r.assignedCourier || r.assignedDeliveryName || (r.assignedPickupCourier?.name) || (r.assignedReturnCourier?.name) || null;
+  const assignedDeliveryName = assignedCourier;
 
   return {
     ...r,
+    id: r.id || r.repairId || (r._id ? String(r._id) : null),
+    repairId: r.repairId || r.id,
     appliance,
     category,
     issue,
@@ -34,7 +38,7 @@ const normalizeRepair = (r) => {
 };
 
 export const RepairProvider = ({ children }) => {
-  // Load repairs from localStorage
+  // Load repairs from localStorage (with mock fallback)
   const [repairs, setRepairs] = useState(() => {
     try {
       const saved = localStorage.getItem('mixerfix_repairs');
@@ -70,6 +74,14 @@ export const RepairProvider = ({ children }) => {
     return INITIAL_PAYMENTS;
   });
 
+  // Delivery personnel fleet
+  const [deliveryPersonnel, setDeliveryPersonnel] = useState([
+    { id: 'del-1', name: 'Amit Patel', phone: '+91 91234 56780', status: 'Available' },
+    { id: 'del-2', name: 'Vikram Singh', phone: '+91 99887 76655', status: 'Active on Road' },
+    { id: 'del-3', name: 'Karthik Rao', phone: '+91 97766 55443', status: 'Available' },
+    { id: 'del-4', name: 'Vikas Verma', phone: '+91 97654 32109', status: 'On Shift' },
+  ]);
+
   // Toast notifications state
   const [toasts, setToasts] = useState([]);
 
@@ -104,24 +116,103 @@ export const RepairProvider = ({ children }) => {
     localStorage.setItem('mixerfix_payments', JSON.stringify(payments));
   }, [payments]);
 
-  // Delivery personnel fleet
-  const deliveryPersonnel = [
-    { id: 'del-1', name: 'Amit Patel', phone: '+91 91234 56780', status: 'Available' },
-    { id: 'del-2', name: 'Vikram Singh', phone: '+91 99887 76655', status: 'Active on Road' },
-    { id: 'del-3', name: 'Karthik Rao', phone: '+91 97766 55443', status: 'Available' },
-    { id: 'del-4', name: 'Vikas Verma', phone: '+91 97654 32109', status: 'On Shift' },
-  ];
-  const deliveryAgents = deliveryPersonnel;
+  // Synchronize with backend API on mount if available
+  useEffect(() => {
+    const fetchBackendData = async () => {
+      const token = localStorage.getItem('mixerfix_token');
+      if (!token) return;
+
+      try {
+        // Fetch live repairs from MongoDB
+        const repairsRes = await repairsAPI.getAllRepairs();
+        if (repairsRes?.success && Array.isArray(repairsRes.repairs)) {
+          setRepairs(repairsRes.repairs.map(normalizeRepair));
+        }
+
+        // Fetch payments from MongoDB
+        const paymentsRes = await paymentsAPI.getPayments();
+        if (paymentsRes?.success && Array.isArray(paymentsRes.payments)) {
+          setPayments(paymentsRes.payments);
+        }
+
+        // Fetch delivery couriers
+        const couriersRes = await usersAPI.getDeliveryAgents();
+        if (couriersRes?.success && Array.isArray(couriersRes.agents) && couriersRes.agents.length > 0) {
+          setDeliveryPersonnel(couriersRes.agents.map((a) => ({
+            id: a._id || a.id,
+            name: a.name,
+            phone: a.phone,
+            status: a.dutyStatus || 'Available',
+          })));
+        }
+
+        // Fetch chat messages
+        const chatRes = await chatAPI.getMessages('general');
+        if (chatRes?.success && Array.isArray(chatRes.messages) && chatRes.messages.length > 0) {
+          setMessages(chatRes.messages);
+        }
+      } catch (err) {
+        // Silent fallback to mock data
+      }
+    };
+
+    fetchBackendData();
+  }, []);
+
+  // Socket.IO real-time event listeners
+  useEffect(() => {
+    const socket = getSocket();
+    if (!socket) return;
+
+    const handleRepairCreated = (newRepair) => {
+      setRepairs((prev) => [normalizeRepair(newRepair), ...prev.filter((r) => r.id !== newRepair.repairId && r.id !== newRepair.id)]);
+      addToast('New Repair Ticket', `Ticket ${newRepair.repairId || newRepair.id} registered!`, 'info');
+    };
+
+    const handleRepairUpdated = (updatedRepair) => {
+      setRepairs((prev) =>
+        prev.map((r) =>
+          r.id === updatedRepair.repairId || r.repairId === updatedRepair.repairId || r._id === updatedRepair._id
+            ? normalizeRepair(updatedRepair)
+            : r
+        )
+      );
+    };
+
+    const handleChatMessage = (newMsg) => {
+      setMessages((prev) => {
+        if (prev.some((m) => m._id === newMsg._id || m.id === newMsg.id)) return prev;
+        return [...prev, newMsg];
+      });
+    };
+
+    const handlePaymentProcessed = (newPayment) => {
+      setPayments((prev) => [newPayment, ...prev.filter((p) => p.paymentId !== newPayment.paymentId && p.id !== newPayment.id)]);
+    };
+
+    socket.on('repair:created', handleRepairCreated);
+    socket.on('repair:updated', handleRepairUpdated);
+    socket.on('chat:message', handleChatMessage);
+    socket.on('payment:processed', handlePaymentProcessed);
+
+    return () => {
+      socket.off('repair:created', handleRepairCreated);
+      socket.off('repair:updated', handleRepairUpdated);
+      socket.off('chat:message', handleChatMessage);
+      socket.off('payment:processed', handlePaymentProcessed);
+    };
+  }, [addToast]);
 
   // 1. Add New Repair Complaint
-  const addRepair = (formData, customer) => {
+  const addRepair = async (formData, customer) => {
+    // Generate fallback unique ID
     const maxNum = repairs.reduce((max, r) => {
-      const match = r.id ? r.id.match(/\d+/) : null;
+      const match = r.id ? String(r.id).match(/\d+/) : null;
       const num = match ? parseInt(match[0], 10) : 0;
       return num > max ? num : max;
     }, 1000);
 
-    const newId = `REP-${maxNum + 1}`;
+    const fallbackId = `REP-${maxNum + 1}`;
     const appliance = formData.appliance || formData.category || 'Mixer and Grinder';
     const issue = formData.issue || formData.problem || 'Appliance issue';
     const address = formData.address || formData.pickupAddress || 'Address';
@@ -129,8 +220,9 @@ export const RepairProvider = ({ children }) => {
     const customerPhone = formData.customerPhone || formData.phone || customer?.phone || '+91 98765 43210';
     const customerEmail = formData.customerEmail || formData.email || customer?.email || 'customer@mixerfix.com';
 
-    const newRepair = normalizeRepair({
-      id: newId,
+    let createdRecord = normalizeRepair({
+      id: fallbackId,
+      repairId: fallbackId,
       customerId: customer?.id || formData.customerId || 'cust-1',
       customerName,
       customerPhone,
@@ -147,17 +239,14 @@ export const RepairProvider = ({ children }) => {
       address,
       city: formData.city || 'Bangalore',
       pincode: formData.pincode || '560001',
-      pickupDate: formData.pickupDate || formData.preferredDate || new Date(Date.now() + 86400000).toISOString().split('T')[0],
-      preferredDate: formData.pickupDate || formData.preferredDate || new Date(Date.now() + 86400000).toISOString().split('T')[0],
+      pickupDate: formData.pickupDate || formData.preferredDate || new Date().toISOString().split('T')[0],
+      preferredPickupDate: formData.pickupDate || formData.preferredDate || new Date().toISOString().split('T')[0],
       status: 'Requested',
       estimatedCost: null,
       actualCost: null,
       cost: null,
       partsReplaced: [],
       technicianNotes: '',
-      assignedDeliveryId: null,
-      assignedDeliveryName: null,
-      assignedCourier: null,
       deliveryType: null,
       createdAt: new Date().toISOString().split('T')[0],
       paymentStatus: 'Pending',
@@ -165,21 +254,38 @@ export const RepairProvider = ({ children }) => {
       paymentId: null,
     });
 
-    setRepairs((prev) => [newRepair, ...prev]);
+    // 1. Try backend API
+    try {
+      const res = await repairsAPI.createRepair(formData);
+      if (res?.success && res.repair) {
+        createdRecord = normalizeRepair(res.repair);
+      }
+    } catch (e) {
+      // Backend offline: proceed with local record
+    }
+
+    setRepairs((prev) => [createdRecord, ...prev.filter((r) => r.id !== createdRecord.id)]);
     addToast(
       'Complaint Registered!',
-      `Repair Request ${newId} created successfully. Our workshop will inspect and estimate cost.`,
+      `Repair Request ${createdRecord.id} created successfully. Our workshop will inspect and estimate cost.`,
       'success'
     );
-    return newRepair;
+    return createdRecord;
   };
 
   // 2. Approve Repair
-  const approveRepair = (repairId, estimatedCost = 650, notes = '') => {
+  const approveRepair = async (repairId, estimatedCost = 650, notes = '') => {
+    const costVal = Number(estimatedCost) || 650;
+
+    try {
+      await repairsAPI.approveRepair(repairId, { estimatedCost: costVal, notes });
+    } catch (e) {
+      // Offline fallback
+    }
+
     setRepairs((prev) =>
       prev.map((r) => {
-        if (r.id === repairId) {
-          const costVal = Number(estimatedCost) || r.cost || 650;
+        if (r.id === repairId || r.repairId === repairId) {
           return normalizeRepair({
             ...r,
             status: 'Approved',
@@ -196,10 +302,16 @@ export const RepairProvider = ({ children }) => {
   };
 
   // 3. Reject Repair
-  const rejectRepair = (repairId, reason = '') => {
+  const rejectRepair = async (repairId, reason = '') => {
+    try {
+      await repairsAPI.rejectRepair(repairId, { reason });
+    } catch (e) {
+      // Offline fallback
+    }
+
     setRepairs((prev) =>
       prev.map((r) => {
-        if (r.id === repairId) {
+        if (r.id === repairId || r.repairId === repairId) {
           return normalizeRepair({
             ...r,
             status: 'Rejected',
@@ -214,11 +326,18 @@ export const RepairProvider = ({ children }) => {
   };
 
   // 4. Update Repair Cost
-  const updateCost = (repairId, newCost) => {
+  const updateCost = async (repairId, newCost) => {
     const costVal = Number(newCost);
+
+    try {
+      await repairsAPI.updateCost(repairId, { cost: costVal });
+    } catch (e) {
+      // Offline fallback
+    }
+
     setRepairs((prev) =>
       prev.map((r) => {
-        if (r.id === repairId) {
+        if (r.id === repairId || r.repairId === repairId) {
           return normalizeRepair({
             ...r,
             cost: costVal,
@@ -234,15 +353,24 @@ export const RepairProvider = ({ children }) => {
   const updateRepairCost = updateCost;
 
   // 5. Assign Courier
-  const assignCourier = (repairId, courierNameOrId) => {
+  const assignCourier = async (repairId, courierNameOrId) => {
     const courier = deliveryPersonnel.find((d) => d.name === courierNameOrId || d.id === courierNameOrId) || {
       name: courierNameOrId || 'Amit Patel',
       phone: '+91 91234 56780',
     };
 
+    try {
+      await deliveriesAPI.assignDelivery({
+        repairId,
+        courierName: courier.name,
+      });
+    } catch (e) {
+      // Offline fallback
+    }
+
     setRepairs((prev) =>
       prev.map((r) => {
-        if (r.id === repairId) {
+        if (r.id === repairId || r.repairId === repairId) {
           const nextStatus = r.status === 'Completed' ? 'Out for Delivery' : 'Pickup Assigned';
           return normalizeRepair({
             ...r,
@@ -262,10 +390,16 @@ export const RepairProvider = ({ children }) => {
   const assignReturnDelivery = assignCourier;
 
   // 6. Generic Status Transition
-  const updateStatus = (repairId, newStatus) => {
+  const updateStatus = async (repairId, newStatus) => {
+    try {
+      await repairsAPI.updateStatus(repairId, { status: newStatus });
+    } catch (e) {
+      // Offline fallback
+    }
+
     setRepairs((prev) =>
       prev.map((r) => {
-        if (r.id === repairId) {
+        if (r.id === repairId || r.repairId === repairId) {
           return normalizeRepair({
             ...r,
             status: newStatus,
@@ -289,24 +423,41 @@ export const RepairProvider = ({ children }) => {
   const markAsDelivered = (id) => updateStatus(id, 'Delivered');
 
   // 7. Simulated Payment Processing
-  const processPayment = ({ repairId, amount, method }) => {
+  const processPayment = async ({ repairId, amount, method }) => {
     const txnId = `TXN-${Math.floor(100000 + Math.random() * 900000)}`;
     const payId = `PAY-${100 + payments.length + 1}`;
-    const newTx = {
+    let newTx = {
       id: payId,
+      paymentId: payId,
       repairId,
       amount: Number(amount) || 500,
       method: method || 'UPI',
+      paymentMethod: method || 'UPI',
       status: 'Paid',
+      paymentStatus: 'Paid',
+      transactionReference: txnId,
       transactionId: txnId,
       date: new Date().toISOString().split('T')[0],
     };
 
-    setPayments((prev) => [newTx, ...prev]);
+    try {
+      const res = await paymentsAPI.createPayment({
+        repairId,
+        amount,
+        paymentMethod: method,
+      });
+      if (res?.success && res.payment) {
+        newTx = { ...res.payment, id: res.payment.paymentId, method: res.payment.paymentMethod };
+      }
+    } catch (e) {
+      // Offline fallback
+    }
+
+    setPayments((prev) => [newTx, ...prev.filter((p) => p.id !== newTx.id)]);
 
     setRepairs((prev) =>
       prev.map((r) => {
-        if (r.id === repairId) {
+        if (r.id === repairId || r.repairId === repairId) {
           return normalizeRepair({
             ...r,
             paymentStatus: 'Paid',
@@ -321,8 +472,9 @@ export const RepairProvider = ({ children }) => {
     addToast('Payment Simulated', `₹${amount} paid via ${method} (Simulated).`, 'success');
     return newTx;
   };
+
   const processSimulatedPayment = (repairId, method, details) => {
-    const repair = repairs.find((r) => r.id === repairId);
+    const repair = repairs.find((r) => r.id === repairId || r.repairId === repairId);
     return processPayment({
       repairId,
       amount: repair?.cost || 650,
@@ -331,7 +483,7 @@ export const RepairProvider = ({ children }) => {
   };
 
   // 8. Chat Messaging
-  const sendMessage = ({ text, senderRole = 'Customer', senderName = 'User', repairId = 'general' }) => {
+  const sendMessage = async ({ text, senderRole = 'Customer', senderName = 'User', repairId = 'general' }) => {
     if (!text?.trim()) return;
 
     const newMsg = {
@@ -340,25 +492,30 @@ export const RepairProvider = ({ children }) => {
       senderRole,
       senderName,
       text: text.trim(),
+      content: text.trim(),
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 
     setMessages((prev) => [...prev, newMsg]);
 
-    // Simulated response from Shop Owner if Customer sends message
-    if (senderRole === 'Customer') {
-      setTimeout(() => {
-        const autoReply = {
-          id: `msg-reply-${Date.now()}`,
-          repairId,
-          senderRole: 'Shop Owner',
-          senderName: 'Suresh Kumar (Shop Owner)',
-          text: `Hello ${senderName}! We have received your query regarding your appliance. Our technicians are inspecting the unit and will provide an update shortly.`,
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        };
-        setMessages((prev) => [...prev, autoReply]);
-        addToast('New Message', 'Shop Owner responded to your query.', 'info');
-      }, 1500);
+    try {
+      await chatAPI.sendMessage(repairId, { text, content: text });
+    } catch (e) {
+      // Simulated response from Shop Owner if Customer sends message offline
+      if (senderRole === 'Customer') {
+        setTimeout(() => {
+          const autoReply = {
+            id: `msg-reply-${Date.now()}`,
+            repairId,
+            senderRole: 'Shop Owner',
+            senderName: 'Suresh Kumar (Shop Owner)',
+            text: `Hello ${senderName}! We have received your query regarding your appliance. Our technicians are inspecting the unit and will provide an update shortly.`,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          };
+          setMessages((prev) => [...prev, autoReply]);
+          addToast('New Message', 'Shop Owner responded to your query.', 'info');
+        }, 1500);
+      }
     }
   };
 
@@ -388,7 +545,7 @@ export const RepairProvider = ({ children }) => {
         messages,
         payments,
         deliveryPersonnel,
-        deliveryAgents,
+        deliveryAgents: deliveryPersonnel,
         toasts,
         addToast,
         showToast,

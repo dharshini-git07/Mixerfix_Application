@@ -41,7 +41,7 @@ export default function RegisterPage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -62,28 +62,32 @@ export default function RegisterPage() {
     }
 
     setIsLoading(true);
-    setTimeout(() => {
-      const res = register(formData);
+    try {
+      const res = await register(formData);
       setIsLoading(false);
 
-      if (res.success) {
+      if (res && res.success) {
         addToast(
           'Account Created!',
           `Welcome to Mixer Fix, ${res.user.name}! Account registered as ${res.user.role}.`,
           'success'
         );
 
-        if (res.user.role === 'owner') {
+        const userRole = (res.user.role || '').toLowerCase();
+        if (userRole === 'owner') {
           navigate('/owner/dashboard');
-        } else if (res.user.role === 'delivery') {
+        } else if (userRole === 'delivery') {
           navigate('/delivery/overview');
         } else {
           navigate('/customer/overview');
         }
       } else {
-        setError(res.error || 'Failed to create account.');
+        setError(res?.error || 'Failed to create account.');
       }
-    }, 400);
+    } catch (err) {
+      setIsLoading(false);
+      setError('Failed to create account.');
+    }
   };
 
   return (

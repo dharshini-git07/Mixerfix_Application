@@ -32,7 +32,7 @@ export default function LoginPage() {
 
   const redirectTarget = searchParams.get('redirect');
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -42,53 +42,68 @@ export default function LoginPage() {
     }
 
     setIsLoading(true);
-    setTimeout(() => {
-      const res = login(email, password, role);
+    try {
+      const res = await login(email.trim(), password, role);
       setIsLoading(false);
 
-      if (res.success) {
+      if (res && res.success) {
         addToast(
           'Login Successful',
           `Welcome back, ${res.user.name}! Redirecting to ${res.user.role} portal...`,
           'success'
         );
 
-        if (redirectTarget === 'new-request' && res.user.role === 'customer') {
-          navigate('/customer/new-request');
-        } else if (res.user.role === 'owner') {
+        const userRole = (res.user.role || '').toLowerCase();
+        if (redirectTarget === 'new-request' && userRole === 'customer') {
+          navigate('/customer/new-repair');
+        } else if (userRole === 'owner') {
           navigate('/owner/dashboard');
-        } else if (res.user.role === 'delivery') {
+        } else if (userRole === 'delivery') {
           navigate('/delivery/overview');
         } else {
           navigate('/customer/overview');
         }
       } else {
-        setError(res.error || 'Authentication failed. Please verify credentials.');
+        setError(res?.error || 'Authentication failed. Please verify credentials.');
       }
-    }, 400);
+    } catch (err) {
+      setIsLoading(false);
+      setError('Authentication failed. Please verify credentials.');
+    }
   };
 
   // 1-Click Demo Login Quick Fill
-  const handleQuickDemoLogin = (demoRole, demoEmail, demoPass) => {
+  const handleQuickDemoLogin = async (demoRole, demoEmail, demoPass) => {
     setRole(demoRole);
     setEmail(demoEmail);
     setPassword(demoPass);
     setError('');
+    setIsLoading(true);
 
-    const res = login(demoEmail, demoPass, demoRole);
-    if (res.success) {
-      addToast(
-        'Demo Login Active',
-        `Logged in as ${res.user.name} (${res.user.role.toUpperCase()})`,
-        'success'
-      );
-      if (demoRole === 'owner') {
-        navigate('/owner/dashboard');
-      } else if (demoRole === 'delivery') {
-        navigate('/delivery/overview');
+    try {
+      const res = await login(demoEmail, demoPass, demoRole);
+      setIsLoading(false);
+
+      if (res && res.success) {
+        addToast(
+          'Demo Login Active',
+          `Logged in as ${res.user.name} (${res.user.role.toUpperCase()})`,
+          'success'
+        );
+        const userRole = (res.user.role || '').toLowerCase();
+        if (userRole === 'owner') {
+          navigate('/owner/dashboard');
+        } else if (userRole === 'delivery') {
+          navigate('/delivery/overview');
+        } else {
+          navigate('/customer/overview');
+        }
       } else {
-        navigate('/customer/overview');
+        setError(res?.error || 'Authentication failed. Please verify credentials.');
       }
+    } catch (err) {
+      setIsLoading(false);
+      setError('Authentication failed. Please verify credentials.');
     }
   };
 
