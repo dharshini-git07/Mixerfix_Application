@@ -27,3 +27,55 @@
   background: #94a3b8;
 }
 
+/* Fallback utilities for brand theme tokens */
+.bg-brand-primary {
+  background-color: #087F75 !important;
+}
+
+.text-brand-primary {
+  color: #087F75 !important;
+}
+
+.border-brand-primary {
+  border-color: #087F75 !important;
+}
+
+.bg-brand-secondary {
+  background-color: #142D3A !important;
+}
+
+.text-brand-secondary {
+  color: #142D3A !important;
+}
+
+.bg-brand-accent {
+  background-color: #DDF4EF !important;
+}
+
+.text-brand-accent {
+  color: #087F75 !important;
+}
+
+.text-primary-text {
+  color: #263238 !important;
+}
+
+.text-secondary-text {
+  color: #718096 !important;
+}
+
+.bg-bg-light {
+  background-color: #F5F8F8 !important;
+}
+
+.text-success-text {
+  color: #16A34A !important;
+}
+
+.text-warning-text {
+  color: #F59E0B !important;
+}
+
+.text-danger-text {
+  color: #DC2626 !important;
+}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate, useLocation, Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useRepair } from '../../context/RepairContext';
 import {
@@ -25,6 +25,15 @@ import {
   ShieldAlert
 } from 'lucide-react';
 
+const normalizeRole = (r) => {
+  if (!r) return '';
+  const lower = String(r).toLowerCase().trim();
+  if (lower.includes('owner')) return 'owner';
+  if (lower.includes('delivery')) return 'delivery';
+  if (lower.includes('customer')) return 'customer';
+  return lower;
+};
+
 export default function DashboardLayout({ children, role }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { currentUser, logout, switchDemoRole } = useAuth();
@@ -37,8 +46,11 @@ export default function DashboardLayout({ children, role }) {
     return <Navigate to="/login" replace />;
   }
 
+  const userRoleKey = normalizeRole(currentUser.role);
+  const targetRoleKey = normalizeRole(role);
+
   // Role-based access control
-  if (role && currentUser.role !== role) {
+  if (targetRoleKey && userRoleKey !== targetRoleKey) {
     return (
       <div className="min-h-screen bg-[#F5F8F8] flex items-center justify-center p-4 font-sans">
         <div className="max-w-md w-full bg-white rounded-3xl p-8 border border-slate-200 shadow-xl text-center">
@@ -49,7 +61,7 @@ export default function DashboardLayout({ children, role }) {
             Role Restricted
           </span>
           <h3 className="text-xl font-bold text-slate-900 mt-2">
-            {role === 'owner' ? 'Shop Owner' : role === 'delivery' ? 'Delivery Fleet' : 'Customer'} Portal
+            {targetRoleKey === 'owner' ? 'Shop Owner' : targetRoleKey === 'delivery' ? 'Delivery Fleet' : 'Customer'} Portal
           </h3>
           <p className="text-xs text-slate-500 mt-2 leading-relaxed">
             You are currently signed in as <strong>{currentUser.name}</strong> with the{' '}
@@ -60,17 +72,17 @@ export default function DashboardLayout({ children, role }) {
           <div className="mt-6 space-y-2">
             <button
               onClick={() => {
-                switchDemoRole(role);
+                switchDemoRole(targetRoleKey);
               }}
               className="w-full py-2.5 bg-[#087F75] hover:bg-[#06635B] text-white font-bold text-xs rounded-xl shadow-xs transition cursor-pointer"
             >
-              Switch to {role.toUpperCase()} Account
+              Switch to {targetRoleKey.toUpperCase()} Account
             </button>
             <Link
               to={
-                currentUser.role === 'owner'
+                userRoleKey === 'owner'
                   ? '/owner/dashboard'
-                  : currentUser.role === 'delivery'
+                  : userRoleKey === 'delivery'
                   ? '/delivery/overview'
                   : '/customer/overview'
               }
@@ -91,14 +103,14 @@ export default function DashboardLayout({ children, role }) {
 
   // Nav items based on role
   const getNavItems = () => {
-    switch (role) {
+    switch (targetRoleKey) {
       case 'owner':
         return [
           { label: 'Dashboard', path: '/owner/dashboard', icon: LayoutDashboard },
           { label: 'Repair Requests', path: '/owner/requests', icon: Clock, badge: repairs.filter(r => r.status === 'Requested').length },
           { label: 'Approved & Active', path: '/owner/approved', icon: CheckCircle2 },
           { label: 'Customers', path: '/owner/customers', icon: Users },
-          { label: 'Delivery Fleet', path: '/owner/delivery', icon: Truck },
+          { label: 'Delivery Fleet', path: '/owner/deliveries', icon: Truck },
           { label: 'Live Chat', path: '/owner/chat', icon: MessageSquare },
           { label: 'Revenue & Payments', path: '/owner/payments', icon: CreditCard },
           { label: 'Shop Profile', path: '/owner/profile', icon: User },
@@ -107,7 +119,7 @@ export default function DashboardLayout({ children, role }) {
         return [
           { label: 'Overview', path: '/delivery/overview', icon: LayoutDashboard },
           { label: 'Assigned Deliveries', path: '/delivery/assigned', icon: Truck },
-          { label: 'Pickup Tasks', path: '/delivery/pickups', icon: PackageCheck, badge: repairs.filter(r => r.status === 'Pickup Assigned').length },
+          { label: 'Pickup Tasks', path: '/delivery/pickup', icon: PackageCheck, badge: repairs.filter(r => r.status === 'Pickup Assigned').length },
           { label: 'Return Deliveries', path: '/delivery/returns', icon: RotateCcw, badge: repairs.filter(r => r.status === 'Completed' || r.status === 'Out for Delivery').length },
           { label: 'Agent Profile', path: '/delivery/profile', icon: User },
         ];
@@ -115,7 +127,7 @@ export default function DashboardLayout({ children, role }) {
       default:
         return [
           { label: 'Overview', path: '/customer/overview', icon: LayoutDashboard },
-          { label: 'New Repair Request', path: '/customer/new-request', icon: PlusCircle, highlight: true },
+          { label: 'New Repair Request', path: '/customer/new-repair', icon: PlusCircle, highlight: true },
           { label: 'My Repairs', path: '/customer/my-repairs', icon: Clock, badge: repairs.length },
           { label: 'Support Chat', path: '/customer/chat', icon: MessageSquare },
           { label: 'Payments', path: '/customer/payments', icon: CreditCard },
@@ -127,7 +139,7 @@ export default function DashboardLayout({ children, role }) {
   const navItems = getNavItems();
 
   const getRoleHeaderInfo = () => {
-    switch (role) {
+    switch (targetRoleKey) {
       case 'owner':
         return {
           title: 'Shop Owner Hub',
@@ -170,7 +182,7 @@ export default function DashboardLayout({ children, role }) {
 
         <div className="flex items-center space-x-2">
           <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full border ${headerInfo.color}`}>
-            {role}
+            {targetRoleKey}
           </span>
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -227,7 +239,7 @@ export default function DashboardLayout({ children, role }) {
             <div className="flex-1 min-w-0">
               <p className="text-xs font-semibold text-white truncate">{currentUser?.name}</p>
               <span className="inline-block text-[10px] text-teal-300 font-medium capitalize">
-                {role === 'owner' ? 'Shop Owner' : role === 'delivery' ? 'Delivery Agent' : 'Customer'}
+                {targetRoleKey === 'owner' ? 'Shop Owner' : targetRoleKey === 'delivery' ? 'Delivery Agent' : 'Customer'}
               </span>
             </div>
           </div>
@@ -330,7 +342,7 @@ export default function DashboardLayout({ children, role }) {
 
         {/* Page Content Body */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
-          {children}
+          {children || <Outlet />}
         </main>
       </div>
     </div>

@@ -7,7 +7,8 @@ export default function StatCard({
   trend,
   trendLabel,
   color = 'primary',
-  subtext
+  subtext,
+  subtitle
 }) {
   const colorMap = {
     primary: {
@@ -21,6 +22,30 @@ export default function StatCard({
       text: 'text-[#142D3A]',
       border: 'border-slate-200',
       glow: 'group-hover:ring-[#142D3A]/20'
+    },
+    warning: {
+      bg: 'bg-amber-50',
+      text: 'text-amber-600',
+      border: 'border-amber-100',
+      glow: 'group-hover:ring-amber-500/20'
+    },
+    info: {
+      bg: 'bg-blue-50',
+      text: 'text-blue-600',
+      border: 'border-blue-100',
+      glow: 'group-hover:ring-blue-500/20'
+    },
+    success: {
+      bg: 'bg-emerald-50',
+      text: 'text-emerald-600',
+      border: 'border-emerald-100',
+      glow: 'group-hover:ring-emerald-500/20'
+    },
+    danger: {
+      bg: 'bg-rose-50',
+      text: 'text-rose-600',
+      border: 'border-rose-100',
+      glow: 'group-hover:ring-rose-500/20'
     },
     amber: {
       bg: 'bg-amber-50',
@@ -49,22 +74,23 @@ export default function StatCard({
   };
 
   const scheme = colorMap[color] || colorMap.primary;
+  const displaySub = trendLabel || subtitle || subtext;
 
   return (
     <div className={`group bg-white p-5 rounded-2xl border border-slate-100 shadow-soft hover:shadow-md transition-all duration-300 relative overflow-hidden ring-1 ring-slate-100 ${scheme.glow}`}>
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-xs font-medium uppercase tracking-wider text-slate-500">{title}</p>
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">{title}</p>
           <h3 className="text-2xl font-bold text-slate-900 mt-1.5 tracking-tight">{value}</h3>
           
-          {(trend || subtext) && (
+          {(trend || displaySub) && (
             <div className="flex items-center gap-1.5 mt-2">
               {trend && (
                 <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">
                   {trend}
                 </span>
               )}
-              <span className="text-xs text-slate-500">{trendLabel || subtext}</span>
+              {displaySub && <span className="text-xs text-slate-500">{displaySub}</span>}
             </div>
           )}
         </div>
@@ -78,4 +104,3 @@ export default function StatCard({
     </div>
   );
 }
-

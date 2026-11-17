@@ -22,11 +22,14 @@ import {
   Award,
   Zap,
   RotateCcw,
-  Send
+  Send,
+  User,
+  Store,
+  LayoutDashboard
 } from 'lucide-react';
 
 export default function LandingPage() {
-  const { isAuthenticated, currentUser } = useAuth();
+  const { isAuthenticated, currentUser, switchDemoRole } = useAuth();
   const { addToast } = useRepair();
   const navigate = useNavigate();
 
@@ -40,13 +43,8 @@ export default function LandingPage() {
   const [contactSubmitted, setContactSubmitted] = useState(false);
 
   const handleBookRepairClick = () => {
-    if (!isAuthenticated) {
-      navigate('/login?redirect=new-request');
-    } else if (currentUser?.role === 'customer') {
-      navigate('/customer/new-request');
-    } else {
-      navigate('/login');
-    }
+    switchDemoRole('customer');
+    navigate('/customer/new-repair');
   };
 
   const handleContactSubmit = (e) => {
@@ -176,6 +174,41 @@ export default function LandingPage() {
                 </a>
               </div>
 
+              {/* Quick 1-Click Role Direct Launches */}
+              <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-2">
+                <span className="text-xs font-semibold text-slate-500">Instant Role Portals:</span>
+                <button
+                  onClick={() => {
+                    switchDemoRole('customer');
+                    navigate('/customer/overview');
+                  }}
+                  className="px-3 py-1.5 bg-teal-50 hover:bg-teal-100 text-[#087F75] font-bold text-xs rounded-lg border border-teal-200 shadow-2xs flex items-center gap-1.5 transition cursor-pointer"
+                >
+                  <User className="w-3.5 h-3.5" />
+                  <span>Customer Portal</span>
+                </button>
+                <button
+                  onClick={() => {
+                    switchDemoRole('owner');
+                    navigate('/owner/dashboard');
+                  }}
+                  className="px-3 py-1.5 bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold text-xs rounded-lg border border-sky-200 shadow-2xs flex items-center gap-1.5 transition cursor-pointer"
+                >
+                  <Store className="w-3.5 h-3.5" />
+                  <span>Shop Owner Hub</span>
+                </button>
+                <button
+                  onClick={() => {
+                    switchDemoRole('delivery');
+                    navigate('/delivery/overview');
+                  }}
+                  className="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold text-xs rounded-lg border border-amber-200 shadow-2xs flex items-center gap-1.5 transition cursor-pointer"
+                >
+                  <Truck className="w-3.5 h-3.5" />
+                  <span>Delivery Fleet</span>
+                </button>
+              </div>
+
               {/* Trust Badges */}
               <div className="pt-6 grid grid-cols-3 gap-4 border-t border-slate-200/80 max-w-lg mx-auto lg:mx-0">
                 <div>
@@ -247,6 +280,172 @@ export default function LandingPage() {
                     </button>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3 Role Portals Showcase Section */}
+      <section className="py-16 bg-gradient-to-b from-[#F5F8F8] to-white border-b border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#087F75] bg-[#DDF4EF] px-3.5 py-1.5 rounded-full border border-teal-200">
+              Interactive Multi-Role Experience
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#142D3A] tracking-tight mt-3">
+              One Unified System, 3 Dedicated Role Dashboards
+            </h2>
+            <p className="text-slate-600 text-sm sm:text-base mt-2">
+              Mixer Fix powers the entire lifecycle. Click any portal below to explore its live interactive dashboard!
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Customer Role Card */}
+            <div className="bg-white rounded-3xl p-7 border-2 border-teal-100 hover:border-[#087F75] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="w-12 h-12 rounded-2xl bg-teal-50 text-[#087F75] flex items-center justify-center font-bold shadow-xs">
+                    <User className="w-6 h-6" />
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-wide bg-teal-50 text-[#087F75] px-2.5 py-1 rounded-full border border-teal-200">
+                    Role 1
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-[#142D3A]">Customer Portal</h3>
+                  <p className="text-xs text-slate-500 mt-1">For appliance owners seeking swift, trackable repairs</p>
+                </div>
+                <div className="pt-2 border-t border-slate-100 space-y-2.5 text-xs text-slate-600">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#087F75] shrink-0 mt-0.5" />
+                    <span>Register repair complaints with photos & video uploads</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#087F75] shrink-0 mt-0.5" />
+                    <span>Real-time 9-stage visual progress timeline</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#087F75] shrink-0 mt-0.5" />
+                    <span>Live 2-way chat with workshop technicians</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#087F75] shrink-0 mt-0.5" />
+                    <span>Simulated UPI, Card & Cash on Delivery checkout</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <button
+                  onClick={() => {
+                    switchDemoRole('customer');
+                    navigate('/customer/overview');
+                  }}
+                  className="w-full py-3 bg-[#087F75] hover:bg-[#06635B] text-white font-bold text-xs rounded-xl shadow-md shadow-[#087F75]/20 transition flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span>Open Customer Portal</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </div>
+
+            {/* Shop Owner Role Card */}
+            <div className="bg-white rounded-3xl p-7 border-2 border-sky-100 hover:border-sky-500 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold shadow-xs">
+                    <Store className="w-6 h-6" />
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-wide bg-sky-50 text-sky-700 px-2.5 py-1 rounded-full border border-sky-200">
+                    Role 2
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-[#142D3A]">Shop Owner Hub</h3>
+                  <p className="text-xs text-slate-500 mt-1">For repair workshop managers & electrical engineers</p>
+                </div>
+                <div className="pt-2 border-t border-slate-100 space-y-2.5 text-xs text-slate-600">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+                    <span>Review inbound complaints; Approve or Reject tickets</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+                    <span>Set diagnostic notes & estimated cost quotations</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+                    <span>Assign pickup & return tasks to courier fleet</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+                    <span>Customer directory, billing records & revenue metrics</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <button
+                  onClick={() => {
+                    switchDemoRole('owner');
+                    navigate('/owner/dashboard');
+                  }}
+                  className="w-full py-3 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl shadow-md shadow-sky-600/20 transition flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span>Open Shop Owner Hub</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </div>
+
+            {/* Delivery Fleet Role Card */}
+            <div className="bg-white rounded-3xl p-7 border-2 border-amber-100 hover:border-amber-500 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold shadow-xs">
+                    <Truck className="w-6 h-6" />
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-wide bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full border border-amber-200">
+                    Role 3
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-[#142D3A]">Delivery Fleet App</h3>
+                  <p className="text-xs text-slate-500 mt-1">For doorstep pickup executives & transit couriers</p>
+                </div>
+                <div className="pt-2 border-t border-slate-100 space-y-2.5 text-xs text-slate-600">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                    <span>View pickup tasks with street addresses & directions</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                    <span>1-click direct phone dialer to reach customers</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                    <span>Update statuses: "Mark Picked Up", "Reached Shop"</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                    <span>Return delivery & COD cash collection verification</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <button
+                  onClick={() => {
+                    switchDemoRole('delivery');
+                    navigate('/delivery/overview');
+                  }}
+                  className="w-full py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-md shadow-amber-600/20 transition flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span>Open Delivery Fleet App</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
               </div>
             </div>
           </div>
